@@ -13,7 +13,10 @@ async def test_websocket():
         message = {"type": "register", "payload": {"user": user, "settings": settings}}
         message_json = json.dumps(message)
         await websocket.send(message_json)
-        print(await websocket.recv())
+
+        message = {"type": "settings", "payload": {"settings": settings}}
+        message_json = json.dumps(message)
+        await websocket.send(message_json)
 
 
 asyncio.run(test_websocket())
