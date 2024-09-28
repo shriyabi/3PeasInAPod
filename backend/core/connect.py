@@ -104,13 +104,26 @@ class Connection:
 
     async def handle_analysis(self, data: Message) -> None:
         payload: AnalysisPayload = data["payload"]
-        # Call analysis here
-        # ...
 
         response: AnalysisResponse = {
             "type": "analysis",
             "payload": {
                 "success": True,
+                "responded": False,
             }
         }
         await self.websocket.send_json(response)
+        
+        # Call analysis here
+        # ...
+        analysis_response: AnalysisResponse = {
+            "type": "analysis",
+            "payload": {
+                "success": True,
+                "responded": True,
+                "response_text": "Hello, how are you?",
+                "severity": 1,
+                "audio_b64": "audio_b64",
+            }
+        }
+        await self.websocket.send_json(analysis_response)

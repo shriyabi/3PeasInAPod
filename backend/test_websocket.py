@@ -20,5 +20,11 @@ async def test_websocket():
         await websocket.send(message_json)
         print(await websocket.recv())
 
+        message = {"type": "analysis", "payload": {"text": "Hello, how are you?"}}
+        message_json = json.dumps(message)
+        await websocket.send(message_json)
+        print(await websocket.recv())
+        print(await websocket.recv())
+
 
 asyncio.run(test_websocket())

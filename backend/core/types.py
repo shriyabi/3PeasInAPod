@@ -64,7 +64,7 @@ class SettingsResponsePayload(TypedDict):
 
 class AnalysisResponsePayload(TypedDict):
     success: bool
-    responsed: bool
+    responded: bool
 
     response_text: str
     severity: int
