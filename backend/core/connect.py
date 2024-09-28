@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from fastapi import WebSocket
-from .types import User, Settings, Message, RegisterPayload, SettingsPayload
+from .types import User, Settings, Message, RegisterPayload, SettingsPayload, AnalysisPayload, RegisterResponse, SettingsResponse, AnalysisResponse
 
 class Connection:
     def __init__(self, websocket: WebSocket):
@@ -29,9 +29,46 @@ class Connection:
             data: Message = await self.websocket.receive_json()
             match data["type"]:
                 case "register":
-                    await self.handle_register(data)
+                    try:
+                        await self.handle_register(data)
+                    except Exception as e:
+                        error_message: str = str(e)
+                        response: RegisterResponse = {
+                            "type": "register",
+                            "error_message": error_message,
+                            "payload": {
+                                "success": False,
+                            }
+                        }
+                        await self.websocket.send_json(response)
+                        
                 case "settings":
-                    await self.handle_settings(data)
+                    try:
+                        await self.handle_settings(data)
+                    except Exception as e:
+                        error_message: str = str(e)
+                        response: SettingsResponse = {
+                            "type": "settings",
+                            "error_message": error_message,
+                            "payload": {
+                                "success": False,
+                            }
+                        }
+                        await self.websocket.send_json(response)
+
+                case "analysis":
+                    try:
+                        await self.handle_analysis(data)
+                    except Exception as e:
+                        error_message: str = str(e)
+                        response: AnalysisResponse = {
+                            "type": "analysis",
+                            "error_message": error_message,
+                            "payload": {
+                                "success": False,
+                            }
+                        }
+                        await self.websocket.send_json(response)
 
     async def disconnect(self) -> None:
         await self.websocket.close()
@@ -41,9 +78,39 @@ class Connection:
         self.user = User(**payload["user"])
         self.settings = Settings(**payload["settings"])
         self.initialized = True
+
+        response: RegisterResponse = {
+            "type": "register",
+            "payload": {
+                "success": True,
+            }
+        }
         print(f"User {self.user['first_name']} {self.user['last_name']} registered.")
+        await self.websocket.send_json(response)
 
     async def handle_settings(self, data: Message) -> None:
         payload: SettingsPayload = data["payload"]
         self.settings = Settings(**payload["settings"])
+
+        response: SettingsResponse = {
+            "type": "settings",
+            "payload": {
+                "success": True,
+            }
+        }
+
+        await self.websocket.send_json(response)
         print(f"User {self.user['first_name']} {self.user['last_name']} updated settings.")
+
+    async def handle_analysis(self, data: Message) -> None:
+        payload: AnalysisPayload = data["payload"]
+        # Call analysis here
+        # ...
+
+        response: AnalysisResponse = {
+            "type": "analysis",
+            "payload": {
+                "success": True,
+            }
+        }
+        await self.websocket.send_json(response)

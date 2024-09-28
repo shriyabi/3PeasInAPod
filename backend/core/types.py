@@ -38,6 +38,7 @@ class AnalysisPayload(TypedDict):
 
 class Message(TypedDict):
     type: Literal["register", "settings"]
+    error_message: str
     payload: dict
 
 class RegisterMessage(Message):
@@ -53,3 +54,39 @@ class AnalysisMessage(Message):
     payload: AnalysisPayload
 
 
+""" Json Payload Response Typing """
+
+class RegisterResponsePayload(TypedDict):
+    success: bool
+
+class SettingsResponsePayload(TypedDict):
+    success: bool
+
+class AnalysisResponsePayload(TypedDict):
+    success: bool
+    responsed: bool
+
+    response_text: str
+    severity: int
+    audio_b64: str
+
+
+
+""" Websocket Message Response """
+
+class Response(TypedDict):
+    type: Literal["register", "settings", "analysis"]
+    payload: dict
+
+class RegisterResponse(Response):
+    type: Literal["register"]
+    payload: RegisterResponsePayload
+
+class SettingsResponse(Response):
+    type: Literal["settings"]
+    payload: SettingsResponsePayload
+
+class AnalysisResponse(Response):
+    type: Literal["analysis"]
+    payload: AnalysisResponsePayload
+    
