@@ -1,6 +1,6 @@
 from fastapi import WebSocket
 from .types import User, Settings
-
+from starlette.types import Message
 
 class Connection:
     def __init__(self, websocket: WebSocket, user: User, settings: Settings):
@@ -16,5 +16,5 @@ class Connection:
     
     async def start(self):
         while True:
-            data = await self.websocket.receive_text()
+            data: Message = await self.websocket.recieve_json()
             print(data)

@@ -17,12 +17,11 @@ class ConnectionManager:
 
 manager: ConnectionManager = ConnectionManager()
 
-@app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
     connection: Connection = await Connection.connect(websocket)
     await manager.connect(connection)
     try:
         await connection.start()
     except WebSocketDisconnect:
         manager.disconnect(connection)
-        await manager.broadcast(f"Client #{client_id} left the chat")
