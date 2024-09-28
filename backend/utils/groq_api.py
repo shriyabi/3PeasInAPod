@@ -1,6 +1,5 @@
 from groq import Groq
 from configs import get_config
-import asyncio
 
 client = Groq(
     api_key=get_config()["GROQ_API_KEY"],

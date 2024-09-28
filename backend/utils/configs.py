@@ -2,7 +2,7 @@ import dotenv
 import os
 
 
-dotenv.load_dotenv()
+dotenv.load_dotenv('.env')
 
 
 def get_config():
@@ -11,4 +11,6 @@ def get_config():
         "GROQ_API_KEY": os.environ.get("GROQ_API_KEY"),
         "CARTEASIA_API_KEY": os.environ.get("CARTEASIA_API_KEY"),
         "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY"), 
+        "ROBOFLOW_API_KEY": os.environ.get("ROBOFLOW_API_KEY"),
+        "ROBOFLOW_MODEL_ID": os.environ.get("ROBOFLOW_MODEL_ID"),
     }

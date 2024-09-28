@@ -1,6 +1,6 @@
 # import the inference-sdk
 from inference_sdk import InferenceHTTPClient
-from configs import get_config
+from utils.configs import get_config
 
 # initialize the client
 CLIENT = InferenceHTTPClient(

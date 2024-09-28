@@ -1,5 +1,5 @@
 from openai import OpenAI
-from configs import get_config
+from utils.configs import get_config
 
 
 client = OpenAI(api_key=get_config()["OPENAI_API_KEY"])
