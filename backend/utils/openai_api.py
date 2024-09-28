@@ -38,7 +38,7 @@ json
   "environmental_impact": "Potential pollution of water and harm to wildlife",
   "waste_type": "Glass bottle",
   "severity": 7,
-  "message": "Uh-oh! I see a glass bottle making its way to a creek—don’t let those geese think it’s a fancy new home decor. How about we toss that into recycling instead? Bonus: geese stay alive, and you get good karma!"
+  "message": "Uh-oh! I see a glass bottle making its way to a creek—don't let those geese think it's a fancy new home decor. How about we toss that into recycling instead? Bonus: geese stay alive, and you get good karma!"
 }
 
 Emotional Slider Tuning:
@@ -59,7 +59,7 @@ json
   "environmental_impact": "Wasting electricity",
   "waste_type": "Electricity",
   "severity": 5,
-  "message": "Whoa! Your lights are on, even though you're not there—looks like they miss you! How about we give them a little break? They’ll thank you, and so will the planet!"
+  "message": "Whoa! Your lights are on, even though you're not there—looks like they miss you! How about we give them a little break? They'll thank you, and so will the planet!"
 }
 No Response, no violation:
 json
@@ -77,7 +77,7 @@ json
   "environmental_impact": "Non-biodegradable waste, harmful to the environment",
   "waste_type": "Plastic bag",
   "severity": 8,
-  "message": "Seriously? A plastic bag in the trash? That thing’s gonna stick around longer than your favorite TV show! Toss it in recycling, for everyone’s sake."
+  "message": "Seriously? A plastic bag in the trash? That thing's gonna stick around longer than your favorite TV show! Toss it in recycling, for everyone's sake."
 }
 High Anger, Low Positivity, High Aggressiveness:
 json
@@ -95,7 +95,7 @@ json
   "environmental_impact": "Missed opportunity for recycling",
   "waste_type": "Aluminum can",
   "severity": 4,
-  "message": "Wait, did that just happen? A soda can in the trash?! Aluminum’s basically a recycling superhero—let’s not waste its talents!"
+  "message": "Wait, did that just happen? A soda can in the trash?! Aluminum's basically a recycling superhero—let's not waste its talents!"
 }
 
 
