@@ -8,6 +8,6 @@ CLIENT = InferenceHTTPClient(
 )
 
 
-def roboflow_infer(base64_image: str):
+async def roboflow_infer(base64_image: str):
     result = CLIENT.infer(base64_image, model_id=get_config()["ROBOFLOW_MODEL_ID"])
     return result
