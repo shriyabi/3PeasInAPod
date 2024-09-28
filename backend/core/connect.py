@@ -13,3 +13,8 @@ class Connection:
         connection = cls(websocket, user, settings)
         await connection.websocket.accept()
         return connection
+    
+    async def start(self):
+        while True:
+            data = await self.websocket.receive_text()
+            print(data)
