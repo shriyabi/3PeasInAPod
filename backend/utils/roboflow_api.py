@@ -1,0 +1,13 @@
+# import the inference-sdk
+from inference_sdk import InferenceHTTPClient
+from configs import get_config
+
+# initialize the client
+CLIENT = InferenceHTTPClient(
+    api_url="https://detect.roboflow.com", api_key=get_config()["ROBOFLOW_API_KEY"]
+)
+
+
+def roboflow_infer(base64_image: str):
+    result = CLIENT.infer(base64_image, model_id=get_config()["ROBOFLOW_MODEL_ID"])
+    return result

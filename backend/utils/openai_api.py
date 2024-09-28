@@ -1,6 +1,5 @@
 from openai import OpenAI
 from configs import get_config
-import asyncio
 
 
 client = OpenAI(api_key=get_config()["OPENAI_API_KEY"])
@@ -18,6 +17,9 @@ a few setences to tell them to not do that again, and give them some advice on h
 Please be short and concise in your response.
 
 
+Produce your response as if you are directly talking to the person in the image.
+
+
 On a scale from 1 to 10, this is how aggressive you should be in your response:
 {aggressiveness}
 
@@ -26,7 +28,7 @@ On a scale from 1 to 10, this is how aggressive you should be in your response:
 
 async def get_image_summary(
     base64_image: str,  # base 64 image
-    model: str = "gpt-4o-mini",
+    model: str = "gpt-4o",
     aggressiveness: int = 2,
     max_tokens: int = 300,
 ):
@@ -41,7 +43,7 @@ async def get_image_summary(
                     {
                         "type": "image_url",
                         "image_url": {
-                            "url": f"data:image/jpeg;base64,{base64_image}",
+                            "url": f"data:image/jpeg; base64,{base64_image}",
                             "detail": "high",
                         },
                     },
