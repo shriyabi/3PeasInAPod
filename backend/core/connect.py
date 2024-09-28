@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from fastapi import WebSocket
 from .types import User, Settings, Message, RegisterPayload, SettingsPayload, AnalysisPayload, RegisterResponse, SettingsResponse, AnalysisResponse
+from ..utils.roboflow_api import roboflow_infer
+from ..utils.openai_api import openai_infer
 
 class Connection:
     def __init__(self, websocket: WebSocket):
@@ -109,21 +111,37 @@ class Connection:
             "type": "analysis",
             "payload": {
                 "success": True,
-                "responded": False,
+                "status": "Received",
             }
         }
         await self.websocket.send_json(response)
+
+        roboflow_result = await roboflow_infer(payload["image_b64"])
+        if not any(pred["confidence"] > 0.3 for pred in roboflow_result["predictions"]):
+            response["payload"]["status"] = "Rejected"
+            await self.websocket.send_json(response)
+            return
         
-        # Call analysis here
-        # ...
+        openai_result = await openai_infer(payload["image_b64"])
+
+        if openai_result["action"] == "None":
+            response["payload"]["status"] = "No_Response"
+            await self.websocket.send_json(response)
+            return
+
+        # get cartesia audio
+
         analysis_response: AnalysisResponse = {
             "type": "analysis",
             "payload": {
                 "success": True,
                 "responded": True,
-                "response_text": "Hello, how are you?",
-                "severity": 1,
+                "response_text": openai_result["message"],
+                "severity": openai_result["severity"],
                 "audio_b64": "audio_b64",
             }
         }
         await self.websocket.send_json(analysis_response)
+
+
+        # possibly have groq here

@@ -64,6 +64,7 @@ class SettingsResponsePayload(TypedDict):
 
 class AnalysisResponsePayload(TypedDict):
     success: bool
+    status: Literal["Received", "Rejected", "Accepted", "No_Response", "Responded"]
     responded: bool
 
     response_text: str
