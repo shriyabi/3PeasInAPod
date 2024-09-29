@@ -106,6 +106,9 @@ function Home() {
 
       setSocket(ws);
       setIsCapturing(true);
+      setIsModalOpen(false);
+      setDisplayText('');
+      setIsWaitingForResponse(false);
       setIsAnimating('animate__animated animate__rotateIn');
     } catch (err) {
       console.error("Error accessing camera or connecting to WebSocket:", err);
@@ -214,8 +217,8 @@ function Home() {
         console.log('No_Response');
         break;
       case 'Responded':
-        stopCapture();
         console.log('Responded');
+        setIsCapturing(false);
         playAudio(payload.audio_b64);
         {
           const nextResponse = await waitForResponse();
@@ -226,6 +229,7 @@ function Home() {
         console.log('Groq_Response');
         console.log(payload);
         setDisplayText(payload.text);
+        stopCapture();
         break;
       default:
         console.log('Unknown response status:', payload.status);
