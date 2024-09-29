@@ -290,8 +290,9 @@ function Home() {
           className={`w-[10em] h-[10em] flex flex-col p-7 rounded-xl ${isCapturing ? 'bg-quadary' : 'bg-secondary'}  animate__animated animate__zoomIn`}
           onClick={toggleCapture}
         >
-          <div className={`flex justify-center items-center ${isAnimating}`}>
+          <div className={`flex justify-center flex-col items-center ${isAnimating}`}>
             <img src={isCapturing ? off : on} alt="Toggle capture" />
+            <h1 class="text-base pt-1"> {isCapturing ? 'ON' : 'OFF' } </h1>
           </div>
         </button>
         
