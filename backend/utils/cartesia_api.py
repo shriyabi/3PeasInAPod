@@ -1,10 +1,9 @@
 import requests
-import base64
 from utils.configs import get_config
 
 
 async def cartesia_request(transcript: str) :
-    api_key = get_config()["CARTEASIA_API_KEY"]
+    api_key = get_config("CARTESIA_API_KEY")
     url = "https://api.cartesia.ai/tts/bytes"
     headers = {
         "Cartesia-Version": "2024-06-10",
@@ -18,6 +17,8 @@ async def cartesia_request(transcript: str) :
         "voice": {"mode": "id", "id": "a0e99841-438c-4a64-b679-ae501e7d6091"},
         "output_format": {"container": "mp3", "encoding": "mp3", "sample_rate": 44100},
     }
+    
+    print(api_key)
 
     response = requests.post(url, headers=headers, json=data, stream=True)
 
