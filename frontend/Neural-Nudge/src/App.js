@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="w-screen h-screen bg-primary justify-center flex items-start flex-col"> 
       <div className="text-white w-full h-1/3 mt-5">
-        <h2 className="text-ternary text-3xl text-center font-bold p-5"> Welcome to NeuralNudge </h2>
+        <h2 className="text-ternary text-3xl text-center font-bold p-5"> Green Brother Welcomes You </h2>
       </div>
       <div className="text-white flex-col items-center flex justify-start w-full h-2/3">
         <div className="w-3/4 rounded-lg bg-quadary pt-3 h-3/5 flex flex-col items-center">
@@ -51,7 +51,8 @@ function App() {
           </button> 
           </div>
         </div> 
-        <h2 className="pt-2 px-3 text-center text-ternary text-xs"> <a href="/privacy">By using our services, you consent to the terms of this Privacy Policy.</a>  </h2>
+          <h2 className="pt-2 px-3 text-center text-ternary text-xs"> By using our services, you consent to the terms of this Privacy Policy. 
+          </h2>
       </div>
     </div>
   );
