@@ -1,9 +1,10 @@
 import requests
 import base64
+from utils.configs import get_config
 
 
 def cartesia_request(transcript: str) :
-    api_key = "f2fba32e-382b-47cc-869a-dbe2067ac04b"
+    api_key = get_config()["CARTESIA_API_KEY"]
     url = "https://api.cartesia.ai/tts/bytes"
     headers = {
         "Cartesia-Version": "2024-06-10",
