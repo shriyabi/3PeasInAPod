@@ -6,6 +6,7 @@ import App from './App.css';
 import settings from './application-settings.png';
 import on from './on-button.png';
 import off from './on-off.png';
+import TextModal from './components/TestModal';
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -17,7 +18,7 @@ function Home() {
   const audioRef = useRef(new Audio());
   const [isAnimating, setIsAnimating] = useState('animate__animated animate__flipInY');
   const [displayText, setDisplayText] = useState('');
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -56,7 +57,7 @@ function Home() {
       interval = setInterval(captureAndConvert, 200);
     }
     return () => clearInterval(interval);
-  }, [isCapturing && !isWaitingForResponse]);
+  }, [isCapturing && !isWaitingForResponse && !isModalOpen]);
 
   const startCapture = async () => {
     try {
@@ -214,6 +215,7 @@ function Home() {
       case 'Groq_Response':
         console.log('Groq_Response');
         console.log(payload);
+        setDisplayText(payload.text);
         break;
       default:
         console.log('Unknown response status:', payload.status);
@@ -241,7 +243,6 @@ function Home() {
   const toggleCapture = () => {
     if (isCapturing) {
       stopCapture();
-      setButtonRotation(0);
     } else {
       startCapture();
     }
@@ -274,18 +275,37 @@ function Home() {
   return (
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col">
-        <h2 class="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
+        <h2 className="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
         <button
           className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing === "True" ? 'bg-secondary' : 'bg-secondary'}`}
           onClick={toggleCapture}
         >
           <div className={`flex justify-center items-center ${isAnimating}`}>
-            <img src={isCapturing ? off : on} />
+            <img src={isCapturing ? off : on} alt="Toggle capture" />
           </div>
         </button>
         
+        {displayText && (
+          <button
+            className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Show Text
+          </button>
+        )}
+
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
+
+        <TextModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          content={
+            <div>
+              {displayText}
+            </div>
+          }
+        />
       </div>
     </div>
   );
