@@ -4,6 +4,7 @@ from fastapi import WebSocket
 from .types import User, Settings, Message, RegisterPayload, SettingsPayload, AnalysisPayload, RegisterResponse, SettingsResponse, AnalysisResponse
 from ..utils.roboflow_api import roboflow_infer
 from ..utils.openai_api import openai_infer
+from ..utils.groq_api import get_groq_summary
 
 class Connection:
     def __init__(self, websocket: WebSocket):
@@ -144,4 +145,7 @@ class Connection:
         await self.websocket.send_json(analysis_response)
 
 
-        # possibly have groq here
+        groq_summary = await get_groq_summary(openai_result, roboflow_result)
+        analysis_response["payload"]["groq_summary"] = groq_summary
+        analysis_response["payload"]["status"] = "Groq_Response"
+        await self.websocket.send_json(analysis_response)

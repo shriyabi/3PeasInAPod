@@ -64,12 +64,13 @@ class SettingsResponsePayload(TypedDict):
 
 class AnalysisResponsePayload(TypedDict):
     success: bool
-    status: Literal["Received", "Rejected", "Accepted", "No_Response", "Responded"]
+    status: Literal["Received", "Rejected", "Accepted", "No_Response", "Responded", "Groq_Response"]
     responded: bool
 
     response_text: str
     severity: int
     audio_b64: str
+    groq_summary: str
 
 
 
