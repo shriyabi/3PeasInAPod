@@ -22,6 +22,9 @@ function Settings() {
           positivity: 5,
           sadness: 5,
           aggressiveness: 5,
+          anger: 5,
+          curiosity: 5,
+          surprise: 5,
         },
       };
       setUserData(defaultUserData);
@@ -77,17 +80,17 @@ function Settings() {
         <h2 className="text-quadary text-3xl text-center font-bold p-5">Settings</h2>
         <div className="w-[85vw] rounded-lg bg-secondary pt-3 h-4/5 flex flex-col items-center overflow-y-auto">
           <div className="w-full px-5 py-3">
-            <label className="text-primary text-base pb-1">Reset First Name</label>
+            <label className="text-primary text-base pb-1">First Name</label>
             <input
               type="text"
               value={userData.user.first_name}
-              placeholder="Enter New First Name"
+              placeholder={userData.user.first_name || "Enter New First Name"}
               onChange={(e) => handleInputChange('first_name', e.target.value)}
               className="w-full border-2 text-base rounded-md px-3 text-primary"
             />
           </div>
           <div className="w-full px-5 pb-5">
-            <label className="text-primary text-base pb-1">Reset Last Name</label>
+            <label className="text-primary text-base pb-1">Last Name</label>
             <input
               type="text"
               value={userData.user.last_name}

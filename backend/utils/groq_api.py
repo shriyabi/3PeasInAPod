@@ -52,29 +52,58 @@ Briefly discuss any additional information from RoboFlow, ensuring it is clearly
 Offer a positive alternative (such as recycling or proper disposal) and describe the benefits for both the user and the environment.
 Include links or tips for users to learn more about sustainable practices (e.g., how to recycle glass properly or local recycling programs).
 Keep the tone educational, but accessible to users who may not have an in-depth understanding of environmental science, and make sure the page is visually structured in a way that’s easy to navigate.
-Output Format: A well-structured webpage in plain text, formatted in sections.
+Output Format: A well-structured webpage in jsx text, formatted in sections.
 
 Example Output:
 
-The Environmental Impact of Disposing Glass Bottles Near Water Sources
-Action Overview:
-You’ve thrown away a glass bottle near a creek, a choice that carries significant environmental risks. Let’s take a closer look at the possible consequences and what you can do instead.
-Environmental Impact:
-Glass is a non-biodegradable material, meaning it won’t break down easily in nature. When discarded near water sources like creeks, rivers, or lakes, glass poses several threats:
-Water Pollution: As the bottle degrades over time, small fragments of glass can end up in the water, contributing to long-term pollution.
-Wildlife Harm: Aquatic animals, such as fish, birds, and other wildlife, might mistake glass for food, or they could be injured by sharp edges. Birds like geese could become particularly vulnerable near creeks.
-Ecosystem Disruption: Glass fragments in water bodies can alter the ecosystem’s balance, potentially harming plant life and reducing water quality.
-Severity: Based on NeuralNudge’s assessment, this action has a severity rating of 7 out of 10, which means it has a significant potential to cause harm if the glass isn’t properly disposed of.
-RoboFlow’s Supplementary Data:
-RoboFlow detected an object it classified as “Glass” with a moderate confidence score of 0.57. While this detection reinforces the presence of a glass object, it’s important to rely on NeuralNudge’s more precise analysis for any actions you take.
-What Can You Do Instead?
-Recycle That Glass: Glass is 100% recyclable and can be reused indefinitely without losing quality. By tossing that bottle in the recycling bin instead of leaving it near the creek, you’re giving it a chance to become something new—a win for the environment and future generations.
-Protect Wildlife: Recycling your glass bottle reduces the chances of wildlife encountering and being harmed by it.
-Learn More About Glass Recycling:
-How to Recycle Glass Properly
-Find Local Recycling Programs Near You
-By making small changes like recycling, you can help protect our planet’s waterways and ensure safer habitats for wildlife. Every action counts!
+<div className="bg-primary min-h-screen text-quadary">
+            <div className="w-full p-5">
+                <h1 className="text-2xl font-bold text-ternary underline p-4 rounded">The Environmental Impact of Disposing Glass Bottles Near Water Sources</h1>
 
+                <div className="bg-quaternary p-4 rounded mt-4">
+                    <h2 className="text-xl font-semibold text-secondary overline">Action Overview</h2>
+                    <p>
+                        You’ve thrown away a glass bottle near a creek, a choice that carries significant environmental risks. Let’s take a closer look at the possible consequences and what you can do instead.
+                    </p>
+                </div>
+
+                <div className="bg-quaternary p-4 rounded mt-4">
+                    <h2 className="text-xl font-semibold text-secondary overline">Environmental Impact</h2>
+                    <p>
+                        Glass is a non-biodegradable material, meaning it won’t break down easily in nature. When discarded near water sources like creeks, rivers, or lakes, glass poses several threats:
+                    </p>
+                    <ul className="list-disc list-inside ml-4">
+                        <li>Water Pollution: As the bottle degrades over time, small fragments of glass can end up in the water, contributing to long-term pollution.</li>
+                        <li>Wildlife Harm: Aquatic animals, such as fish, birds, and other wildlife, might mistake glass for food, or they could be injured by sharp edges. Birds like geese could become particularly vulnerable near creeks.</li>
+                        <li>Ecosystem Disruption: Glass fragments in water bodies can alter the ecosystem’s balance, potentially harming plant life and reducing water quality.</li>
+                    </ul>
+                </div>
+
+                <div className="bg-quaternary p-4 rounded mt-4">
+                    <h2 className="text-xl font-semibold text-secondary overline">Severity</h2>
+                    <p>
+                        Based on NeuralNudge’s assessment, this action has a severity rating of 7 out of 10, which means it has a significant potential to cause harm if the glass isn’t properly disposed of.
+                    </p>
+                </div>
+
+                <div className="bg-quaternary p-4 rounded mt-4">
+                    <h2 className="text-xl font-semibold text-secondary overline">RoboFlow’s Supplementary Data</h2>
+                    <p>
+                        RoboFlow detected an object it classified as “Glass” with a moderate confidence score of 0.57. While this detection reinforces the presence of a glass object, it’s important to rely on NeuralNudge’s more precise analysis for any actions you take.
+                    </p>
+                </div>
+
+                <div className="bg-quaternary p-4 rounded mt-4">
+                    <h2 className="text-xl font-semibold text-secondary overline"> What Can You Do Instead?</h2>
+                    <p>
+                        <strong>Recycle That Glass:</strong> Glass is 100% recyclable and can be reused indefinitely without losing quality. By tossing that bottle in the recycling bin instead of leaving it near the creek, you’re giving it a chance to become something new—a win for the environment and future generations.
+                    </p>
+                    <p>
+                        <strong>Protect Wildlife:</strong> Recycling your glass bottle reduces the chances of wildlife encountering and being harmed by it.
+                    </p>
+                </div>
+            </div>
+        </div>
 OpenAI Result:
 {openai_result}
 
@@ -94,5 +123,14 @@ async def get_groq_summary(openai_result: dict, roboflow_result: dict):
         ],
         model="llama3-8b-8192",
     )
-    print(chat_completion.choices[0].message.content)
-    return chat_completion.choices[0].message.content
+    content = chat_completion.choices[0].message.content
+    # Remove any text up to the first '<'
+    start_index = content.find('<')
+    # Find the last '>'
+    end_index = content.rfind('>')
+    if start_index != -1 and end_index != -1:
+        cleaned_content = content[start_index:end_index+1]
+    else:
+        cleaned_content = content  # If '<' or '>' not found, return the original content
+    print(cleaned_content)
+    return cleaned_content

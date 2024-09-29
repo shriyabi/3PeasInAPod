@@ -10,6 +10,7 @@ import TextModal from './components/TestModal';
 import Animate from 'animate.css-react'
 import 'animate.css/animate.css'
 import AnimatedBackground from './components/AnimatedBackground';
+import { CircularProgress } from '@mui/material'; // Add this import
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -23,6 +24,7 @@ function Home() {
   const [displayText, setDisplayText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coolAnimation, setCoolAnimation] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const navigate = useNavigate();
 
@@ -65,7 +67,10 @@ function Home() {
 
   const startCapture = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }, // Use back camera
+        audio: false // We don't need audio input
+      });
       videoRef.current.srcObject = stream;
 
       // Connect to WebSocket using the environment variable
@@ -103,7 +108,11 @@ function Home() {
 
       setSocket(ws);
       setIsCapturing(true);
+      setIsModalOpen(false);
+      setDisplayText('');
+      setIsWaitingForResponse(false);
       setIsAnimating('animate__animated animate__rotateIn');
+      setIsProcessing(false); // Reset processing state
     } catch (err) {
       console.error("Error accessing camera or connecting to WebSocket:", err);
     }
@@ -113,6 +122,7 @@ function Home() {
     const stream = videoRef.current.srcObject;
     const tracks = stream.getTracks();
     tracks.forEach(track => track.stop());
+    setIsCapturing(false);
 
     // Disconnect WebSocket
     if (socket) {
@@ -185,6 +195,7 @@ function Home() {
     if (!payload.success) {
       console.log("Something really fucked up happened");
       console.log(response);
+      stopCapture();
       throw new Error("Something really fucked up happened");
     }
     switch (payload.status) {
@@ -200,6 +211,7 @@ function Home() {
         break;
       case 'Accepted':
         console.log('Accepted');
+        setIsProcessing(true); // Set processing to true when accepted
         {
           const nextResponse = await waitForResponse();
           await handleAnalysisResponse(nextResponse);
@@ -210,6 +222,8 @@ function Home() {
         break;
       case 'Responded':
         console.log('Responded');
+        setIsCapturing(false);
+        setIsProcessing(false); // Reset processing state
         playAudio(payload.audio_b64);
         {
           const nextResponse = await waitForResponse();
@@ -219,7 +233,9 @@ function Home() {
       case 'Groq_Response':
         console.log('Groq_Response');
         console.log(payload);
-        setDisplayText(payload.text);
+        setDisplayText(payload.groq_summary);
+        setIsModalOpen(true);  // Open the modal immediately when we get the Groq response
+        stopCapture();
         break;
       default:
         console.log('Unknown response status:', payload.status);
@@ -231,7 +247,9 @@ function Home() {
     const audioBlob = base64ToBlob(base64Audio, 'audio/mp3');
     const audioUrl = URL.createObjectURL(audioBlob);
     audioRef.current.src = audioUrl;
-    audioRef.current.play();
+    audioRef.current.play().catch(error => {
+      console.error('Error playing audio:', error);
+    });
   };
 
   const base64ToBlob = (base64, mimeType) => {
@@ -283,17 +301,22 @@ function Home() {
       <AnimatedBackground />
       <div className="w-full h-[85vh] z-10 flex flex-col items-center justify-center relative">
         <h2 className="pb-10 px-5 text-ternary text-center">
-          Press the button to communicate with Big Green Brother
+          Press the button to communicate with Green Brother
         </h2>
   
         <button
           className={`w-[10em] h-[10em] flex flex-col p-7 rounded-xl ${isCapturing ? 'bg-quadary better' : 'bg-secondary box'}  animate__animated animate__zoomIn`}
           onClick={toggleCapture}
+          disabled={isProcessing} // Disable button when processing
         >
-          <div className={`flex justify-center flex-col items-center ${isAnimating}`}>
-            <img src={isCapturing ? off : on} alt="Toggle capture" />
-            <h1 class="text-base pt-1"> {isCapturing ? 'ON' : 'OFF' } </h1>
-          </div>
+          {isProcessing ? (
+            <CircularProgress size={60} color="inherit" />
+          ) : (
+            <div className={`flex justify-center flex-col items-center ${isAnimating}`}>
+              <img src={isCapturing ? off : on} alt="Toggle capture" />
+              <h1 class="text-base pt-1"> {isCapturing ? 'ON' : 'OFF' } </h1>
+            </div>
+          )}
         </button>
         
         <div className="">
@@ -321,7 +344,7 @@ function Home() {
         </div>
       </div>
   
-      <div className="w-auto h-auto rounded-xl m-10 bg-quadary flex justify-center items-center">
+      <div className="w-full h-[15vh] z-10 bg-quadary flex justify-center items-center">
         <button
           className="w-[3em] h-[3em] icons m-8 hover:text-secondary"
           onClick={() => navigate('/dashboard')}
