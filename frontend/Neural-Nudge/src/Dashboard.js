@@ -15,8 +15,9 @@ function Home() {
   const [userData, setUserData] = useState(null);
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
   const audioRef = useRef(new Audio());
-  const [buttonRotation, setButtonRotation] = useState(0);
   const [isAnimating, setIsAnimating] = useState('animate__animated animate__flipInY');
+  const [displayText, setDisplayText] = useState('');
+
 
   const navigate = useNavigate();
 
@@ -245,6 +246,12 @@ function Home() {
     }
   };
 
+  //let text = "poop"; 
+  //should be paylood.text
+  const dispText = () => {
+    setDisplayText('poop'); // Set the text to display
+  };
+
   const updateUserData = (newData) => {
     const updatedUserData = { ...userData, ...newData };
     setUserData(updatedUserData);
@@ -262,6 +269,9 @@ function Home() {
           <div className={`flex justify-center items-center ${isAnimating}`}>
             <img src={isCapturing ? off : on} />
           </div>
+        </button>
+        <button onClick={dispText()}>
+            {displayText}
         </button>
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
