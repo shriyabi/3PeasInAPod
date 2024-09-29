@@ -15,7 +15,7 @@ function Home() {
   const canvasRef = useRef(null);
   const [socket, setSocket] = useState(null);
   const [userData, setUserData] = useState(null);
-  const [animationClass, setAnimationClass] = useState(false); 
+  const [isAnimating, setIsAnimating] = React.useState(false); 
 
   const navigate = useNavigate(); 
 
@@ -94,7 +94,7 @@ function Home() {
       };
 
       setIsCapturing(true);
-      setAnimationClass('animate__animated animate__rotateIn');
+      setIsAnimating('animate__animated animate__rotateIn');
     } catch (err) {
       console.error("Error accessing camera or connecting to WebSocket:", err);
     }
@@ -112,7 +112,7 @@ function Home() {
     }
 
     setIsCapturing(false);
-    setAnimationClass('animate__animated animate__flipInY');
+    setIsAnimating('animate__animated animate__flipInY');
     setSocket(null);
   };
 
@@ -157,14 +157,14 @@ function Home() {
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col">
         <h2 class="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
-        <div className='flex justify-center items-center ${animationClass}'>
         <button
           className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing === "True" ? 'bg-secondary' : 'bg-secondary'}`}
           onClick={toggleCapture}
         >
+          <div className='flex justify-center items-center ${isAnimating}'>
           <img src={isCapturing ? off : on}/>
+          </div> 
         </button>
-        </div>
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
