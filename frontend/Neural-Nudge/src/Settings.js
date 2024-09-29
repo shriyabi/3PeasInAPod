@@ -75,7 +75,7 @@ function Settings() {
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col overflow-y-auto">
         <h2 className="text-quadary text-3xl text-center font-bold p-5">Settings</h2>
-        <div className="w-[90vw] rounded-lg bg-secondary pt-3 h-4/5 flex flex-col items-center overflow-y-auto">
+        <div className="w-[85vw] rounded-lg bg-secondary pt-3 h-4/5 flex flex-col items-center overflow-y-auto">
           <div className="w-full px-5 py-3">
             <label className="text-primary text-base pb-1">Reset First Name</label>
             <input
