@@ -45,4 +45,32 @@
   background-color: #483838; /* Change this to your desired color */
 }
 
+.box {
+  box-shadow: 0 0 2em #00baa195;
+}
 
+.better{
+  box-shadow: 0 0 4em #91faecd5;
+}
+
+@keyframes rotateCounterClockwise {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.rotate-counterclockwise {
+  animation: rotateCounterClockwise 1s ease-in-out forwards, fadeIn 1s ease-in-out forwards;
+}

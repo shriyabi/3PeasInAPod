@@ -121,7 +121,7 @@ function Home() {
     }
 
     setIsCapturing(false);
-    setIsAnimating('animate__animated animate__flipInY');
+    setIsAnimating('rotate-counterclockwise');
     setSocket(null);
   };
 
@@ -287,7 +287,7 @@ function Home() {
         </h2>
   
         <button
-          className={`w-[10em] h-[10em] flex flex-col p-7 rounded-xl ${isCapturing ? 'bg-quadary' : 'bg-secondary'}  animate__animated animate__zoomIn`}
+          className={`w-[10em] h-[10em] flex flex-col p-7 rounded-xl ${isCapturing ? 'bg-quadary better' : 'bg-secondary box'}  animate__animated animate__zoomIn`}
           onClick={toggleCapture}
         >
           <div className={`flex justify-center flex-col items-center ${isAnimating}`}>

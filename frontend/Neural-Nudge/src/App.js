@@ -14,6 +14,10 @@ function App() {
     navigate('/dashboard');
   };
 
+  const priv = () => {
+    navigate('/privacy');
+  };
+
   return (
     <div className="w-screen h-screen bg-primary justify-center flex items-start flex-col"> 
       <div className="text-white w-full h-1/3 mt-5">
@@ -51,8 +55,10 @@ function App() {
           </button> 
           </div>
         </div> 
+        <button onClick={priv}>
           <h2 className="pt-2 px-3 text-center text-ternary text-xs"> By using our services, you consent to the terms of this Privacy Policy. 
           </h2>
+        </button>
       </div>
     </div>
   );
