@@ -241,21 +241,28 @@ function Home() {
   const toggleCapture = () => {
     if (isCapturing) {
       stopCapture();
+      setButtonRotation(0);
     } else {
       startCapture();
     }
-  };
-
-  const uhh = "poop"; 
-  var tryy = false; 
-  //let text = "poop"; 
-  //should be paylood.text
-  const dispText = () => {
-    tryy = true; 
-    if(tryy) {
-      setDisplayText(uhh); // Set the text to display
-    }
-    tryy = false; 
+    const updatedUserData = {
+      user: {
+        id: userData.user.id,
+        first_name: userData.user.first_name,
+        last_name: userData.user.last_name,
+      },
+      settings: {
+        speed: 2,
+        anger: 10,
+        curiosity: 0,
+        positivity: 0,
+        surprise: 6,
+        sadness: 1,
+        aggressiveness: 10
+      }
+    };
+    setUserData(updatedUserData);
+    localStorage.setItem('userData', JSON.stringify(updatedUserData));
   };
 
   const updateUserData = (newData) => {
@@ -276,36 +283,10 @@ function Home() {
             <img src={isCapturing ? off : on} />
           </div>
         </button>
-        <button onClick={dispText()}>
-            {displayText}
-        </button>
+        
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
-      <div className="w-full h-[15vh] bg-quadary flex-row flex justify-center items-center">
-        <button
-          className="w-[3em] h-[3em] icons m-8 hover:text-secondary"
-          onClick={() => navigate('/dashboard')}
-        >
-          <img src={home} alt="Home" />
-          <h2 className="text-xs"> Home </h2>
-        </button>
-        <button
-          className="w-[3em] h-[3em] icons m-8"
-          onClick={() => navigate('/analytics')}
-        >
-          <img src={analytics} alt="Analytics" />
-          <h2 className="text-xs"> Analytics </h2>
-        </button>
-        <button
-          className="w-[3em] h-[3em] icons m-8"
-          onClick={() => navigate('/settings')}
-        >
-          <img src={settings} alt="Settings" />
-          <h2 className="text-xs"> Settings </h2>
-        </button>
-      </div>
-
     </div>
   );
 }
