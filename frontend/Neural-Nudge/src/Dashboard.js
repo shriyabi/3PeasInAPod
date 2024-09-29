@@ -9,6 +9,7 @@ import off from './on-off.png';
 import Animate from 'animate.css-react'
 import 'animate.css/animate.css'
 import AnimatedBackground from './components/AnimatedBackground';
+import TextModal from './components/TestModal';
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -20,6 +21,8 @@ function Home() {
   const audioRef = useRef(new Audio());
   const [isAnimating, setIsAnimating] = useState('animate__animated animate__flipInY');
   const [coolAnimation, setCoolAnimation] = useState('');
+  const [displayText, setDisplayText] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -58,7 +61,7 @@ function Home() {
       interval = setInterval(captureAndConvert, 200);
     }
     return () => clearInterval(interval);
-  }, [isCapturing && !isWaitingForResponse]);
+  }, [isCapturing && !isWaitingForResponse && !isModalOpen]);
 
   const startCapture = async () => {
     try {
@@ -216,6 +219,7 @@ function Home() {
       case 'Groq_Response':
         console.log('Groq_Response');
         console.log(payload);
+        setDisplayText(payload.text);
         break;
       default:
         console.log('Unknown response status:', payload.status);
@@ -286,14 +290,32 @@ function Home() {
           className={`w-[10em] h-[10em] flex flex-col p-7 rounded-xl ${isCapturing ? 'bg-quadary' : 'bg-secondary'}  animate__animated animate__zoomIn`}
           onClick={toggleCapture}
         >
-          <div className={`flex justify-center flex-col items-center ${isAnimating}`}>
-            <img src={isCapturing ? off : on} alt="capture status" />
-            <h1 class="text-base pt-1"> {isCapturing ? 'OFF' : 'ON' } </h1>
+          <div className={`flex justify-center items-center ${isAnimating}`}>
+            <img src={isCapturing ? off : on} alt="Toggle capture" />
           </div>
         </button>
-  
+        
+        {displayText && (
+          <button
+            className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Show Text
+          </button>
+        )}
+
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
+
+        <TextModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          content={
+            <div>
+              {displayText}
+            </div>
+          }
+        />
       </div>
   
       <div className="w-full h-[15vh] z-10 bg-quadary flex justify-center items-center">
