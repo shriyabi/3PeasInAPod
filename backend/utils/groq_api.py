@@ -125,6 +125,12 @@ async def get_groq_summary(openai_result: dict, roboflow_result: dict):
     )
     content = chat_completion.choices[0].message.content
     # Remove any text up to the first '<'
-    cleaned_content = content[content.find('<'):]
+    start_index = content.find('<')
+    # Find the last '>'
+    end_index = content.rfind('>')
+    if start_index != -1 and end_index != -1:
+        cleaned_content = content[start_index:end_index+1]
+    else:
+        cleaned_content = content  # If '<' or '>' not found, return the original content
     print(cleaned_content)
     return cleaned_content
