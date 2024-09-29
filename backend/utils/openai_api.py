@@ -142,6 +142,7 @@ async def openai_infer(
                 ],
             }
         ],
+        response_format={"type": "json_object"},
         max_tokens=max_tokens,
     )
 

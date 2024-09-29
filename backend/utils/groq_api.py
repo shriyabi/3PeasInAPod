@@ -13,27 +13,25 @@ The page should be informative but also engaging for users who care about sustai
 Here is your input:
 NeuralNudge Data:
 json
-Copy code
-{
+{{
   "action": "Throwing away a glass bottle near a creek",
   "environmental_impact": "Potential pollution of water and harm to wildlife",
   "waste_type": "Glass bottle",
   "severity": 7,
   "message": "Uh-oh! I see a glass bottle making its way to a creek—don’t let those geese think it’s a fancy new home decor. How about we toss that into recycling instead? Bonus: geese stay alive, and you get good karma!"
-}
+}}
 
 RoboFlow Data:
 json
-Copy code
-{
+{{
   "inference_id": "82eead43-c98a-42a6-91db-6646a3b0a297",
   "time": 0.10348030500017558,
-  "image": {
+  "image": {{
     "width": 4284,
     "height": 5712
-  },
+  }},
   "predictions": [
-    {
+    {{
       "x": 2072.2734375,
       "y": 2119.6875,
       "width": 2192.203125,
@@ -42,9 +40,9 @@ Copy code
       "class": "Glass",
       "class_id": 1,
       "detection_id": "cdec99da-22d1-4702-8693-a7d2d3f63600"
-    }
+    }}
   ]
-}
+}}
 
 Steps:
 Create a header that reflects the topic (e.g., “The Environmental Impact of Disposing Glass Bottles Near Water Sources”).

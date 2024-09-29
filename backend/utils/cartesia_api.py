@@ -3,8 +3,8 @@ import base64
 from utils.configs import get_config
 
 
-def cartesia_request(transcript: str) :
-    api_key = get_config()["CARTESIA_API_KEY"]
+async def cartesia_request(transcript: str) :
+    api_key = get_config()["CARTEASIA_API_KEY"]
     url = "https://api.cartesia.ai/tts/bytes"
     headers = {
         "Cartesia-Version": "2024-06-10",
@@ -23,7 +23,6 @@ def cartesia_request(transcript: str) :
 
     buffer = b""
     for chunk in response.iter_content(chunk_size=128):
-        print(base64.b64encode(chunk).decode("utf-8"))
         buffer += chunk
         
     return buffer

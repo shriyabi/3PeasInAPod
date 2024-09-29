@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import json
+import base64
 from fastapi import WebSocket
 from .types import User, Settings, Message, RegisterPayload, SettingsPayload, AnalysisPayload, RegisterResponse, SettingsResponse, AnalysisResponse
 
 from utils.roboflow_api import roboflow_infer
-from utils.openai_api import get_image_summary
+from utils.openai_api import openai_infer
 from utils.groq_api import get_groq_summary
 from utils.cartesia_api import cartesia_request
 
@@ -125,25 +127,32 @@ class Connection:
             await self.websocket.send_json(response)
             return
         
-        openai_result = await get_image_summary(payload["image_b64"])
+        response["payload"]["status"] = "Accepted"
+        await self.websocket.send_json(response)
+        
+        openai_result = await openai_infer(payload["image_b64"])
+        openai_result = json.loads(openai_result)
 
         if openai_result["action"] == "None":
             response["payload"]["status"] = "No_Response"
             await self.websocket.send_json(response)
             return
-
-        audio_b64 = await cartesia_request(openai_result["message"])
+        
+        audio_bytes = await cartesia_request(openai_result["message"])
+        audio_b64 = base64.b64encode(audio_bytes).decode("utf-8")
 
         analysis_response: AnalysisResponse = {
             "type": "analysis",
             "payload": {
                 "success": True,
+                "status": "Responded",
                 "responded": True,
                 "response_text": openai_result["message"],
                 "severity": openai_result["severity"],
                 "audio_b64": audio_b64,
             }
         }
+
         await self.websocket.send_json(analysis_response)
 
 
@@ -151,3 +160,4 @@ class Connection:
         analysis_response["payload"]["groq_summary"] = groq_summary
         analysis_response["payload"]["status"] = "Groq_Response"
         await self.websocket.send_json(analysis_response)
+
