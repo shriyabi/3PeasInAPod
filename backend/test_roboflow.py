@@ -1,4 +1,5 @@
 from utils import roboflow_api
+# import opencv
 
 import unittest
 
@@ -14,6 +15,12 @@ class TestRoboflow(unittest.IsolatedAsyncioTestCase):
                 result = await roboflow_api.roboflow_infer(base64_image)
                 print(result)
                 assert len(result["predictions"]) > 0
-
+                img = roboflow_api.plot_bboxes_opencv(image, result)
+                with open("tests/images/bottle_result.jpg", "wb") as f:
+                    f.write(img)
+                
+                
+                    
+                    
 if __name__ == '__main__':
     unittest.main()
