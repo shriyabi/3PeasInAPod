@@ -297,13 +297,13 @@ function Home() {
           </div>
         </button>
         
-        <div>
-        {(
+        <div className="">
+        {(displayText && 
           <button
-            className="mt-4 bg-ternary text-primary font-bold py-2 px-4 rounded"
+            className="mt-4 bg-ternary text-sm text-primary font-bold py-0 px-1 rounded"
             onClick={() => setIsModalOpen(true)}
           >
-            Click Here For More Information
+            More Information
           </button>
         )}
 
