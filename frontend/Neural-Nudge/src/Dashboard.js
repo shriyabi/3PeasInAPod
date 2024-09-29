@@ -282,7 +282,7 @@ function Home() {
     <div className="w-screen h-screen bg-primary flex flex-col items-center justify-between relative">
       <AnimatedBackground />
       <div className="w-full h-[85vh] z-10 flex flex-col items-center justify-center relative">
-        <h2 classNameName="pb-10 px-5 text-ternary text-center">
+        <h2 className="pb-10 px-5 text-ternary text-center">
           Press the button to communicate with Big Green Brother
         </h2>
   
