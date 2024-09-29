@@ -4,11 +4,14 @@ import json
 import base64
 from fastapi import WebSocket
 from .types import User, Settings, Message, RegisterPayload, SettingsPayload, AnalysisPayload, RegisterResponse, SettingsResponse, AnalysisResponse
-
+from utils.current_img import set_current_img
 from utils.roboflow_api import roboflow_infer
 from utils.openai_api import openai_infer
 from utils.groq_api import get_groq_summary
 from utils.cartesia_api import cartesia_request
+import logging
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 
 class Connection:
     def __init__(self, websocket: WebSocket):
@@ -122,12 +125,17 @@ class Connection:
         await self.websocket.send_json(response)
 
         roboflow_result = await roboflow_infer(payload["image_b64"])
-        if not any(pred["confidence"] > 0.3 for pred in roboflow_result["predictions"]):
+        if not any(pred["confidence"] > 0.1 for pred in roboflow_result["predictions"]):
+            # print("No object detected.")
+            logging.info("No object detected.")
             response["payload"]["status"] = "Rejected"
             await self.websocket.send_json(response)
             return
         
         response["payload"]["status"] = "Accepted"
+        # print("Object detected.")
+        logging.info("Object detected.")
+        set_current_img(base64.decode((payload["image_b64"])))
         await self.websocket.send_json(response)
         
         openai_result = await openai_infer(payload["image_b64"])
