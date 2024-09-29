@@ -13,4 +13,5 @@ def get_config():
         "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY"), 
         "ROBOFLOW_API_KEY": os.environ.get("ROBOFLOW_API_KEY"),
         "ROBOFLOW_MODEL_ID": os.environ.get("ROBOFLOW_MODEL_ID"),
+        "ROBOFLOW_ENDPOINT": os.environ.get("ROBOFLOW_ENDPOINT"),
     }
