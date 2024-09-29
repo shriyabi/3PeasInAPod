@@ -10,6 +10,7 @@ import TextModal from './components/TestModal';
 import Animate from 'animate.css-react'
 import 'animate.css/animate.css'
 import AnimatedBackground from './components/AnimatedBackground';
+import TextModal from './components/TestModal';
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -23,6 +24,8 @@ function Home() {
   const [displayText, setDisplayText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coolAnimation, setCoolAnimation] = useState('');
+  const [displayText, setDisplayText] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -290,9 +293,8 @@ function Home() {
           className={`w-[10em] h-[10em] flex flex-col p-7 rounded-xl ${isCapturing ? 'bg-quadary' : 'bg-secondary'}  animate__animated animate__zoomIn`}
           onClick={toggleCapture}
         >
-          <div className={`flex justify-center flex-col items-center ${isAnimating}`}>
-            <img src={isCapturing ? off : on} alt="Toggle capture" alt="capture status" />
-            <h1 class="text-base pt-1"> {isCapturing ? 'OFF' : 'ON' } </h1>
+          <div className={`flex justify-center items-center ${isAnimating}`}>
+            <img src={isCapturing ? off : on} alt="Toggle capture" />
           </div>
         </button>
         
@@ -317,24 +319,6 @@ function Home() {
             </div>
           }
         />
-      </div>
-  
-      <div className="w-full h-[15vh] z-10 bg-quadary flex justify-center items-center">
-        <button
-          className="w-[3em] h-[3em] icons m-8 hover:text-secondary"
-          onClick={() => navigate('/dashboard')}
-        >
-          <img src={home} alt="Home" />
-          <h2 className="text-xs">Home</h2>
-        </button>
-  
-        <button
-          className="w-[3em] h-[3em] icons m-8"
-          onClick={() => navigate('/settings')}
-        >
-          <img src={settings} alt="Settings" />
-          <h2 className="text-xs">Settings</h2>
-        </button>
       </div>
   
       <div className="w-full h-[15vh] z-10 bg-quadary flex justify-center items-center">
