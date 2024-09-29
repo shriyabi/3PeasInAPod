@@ -18,11 +18,10 @@ function Settings() {
         },
         settings: {
           speed: 5,
-          anger: 5,
           positivity: 5,
           sadness: 5,
           aggressiveness: 5,
-        }
+        },
       };
       setUserData(defaultUserData);
       localStorage.setItem('userData', JSON.stringify(defaultUserData));
@@ -30,96 +29,109 @@ function Settings() {
   }, []);
 
   const handleInputChange = (field, value) => {
+    if (!userData) return; // Ensure userData is defined
     const updatedUserData = {
       ...userData,
       user: {
         ...userData.user,
-        [field]: value
-      }
+        [field]: value,
+      },
     };
     setUserData(updatedUserData);
     localStorage.setItem('userData', JSON.stringify(updatedUserData));
   };
 
   const handleSliderChange = (setting, value) => {
+    if (!userData) return; // Ensure userData is defined
     const updatedUserData = {
       ...userData,
       settings: {
         ...userData.settings,
-        [setting]: parseInt(value)
-      }
+        [setting]: parseInt(value, 10),
+      },
     };
     setUserData(updatedUserData);
     localStorage.setItem('userData', JSON.stringify(updatedUserData));
   };
 
   const handleSave = () => {
+    if (!userData) return; // Ensure userData is defined
     localStorage.setItem('userData', JSON.stringify(userData));
     navigate('/dashboard');
   };
 
-  // Label mapping for each setting with left and right extremes
-  const settingLabels = {
-    speed: ['Slow', 'Fast'],
-    anger: ['Calm', 'Angry'],
-    positivity: ['Negative', 'Positive'],
-    sadness: ['Happy', 'Sad'],
-    aggressiveness: ['Passive', 'Aggressive'],
-  };
+  if (!userData) return null; // Render nothing if userData is not defined
 
-  if (!userData) return null;
+  // Labels and emojis for each setting
+  const settingLabels = {
+    speed: { label: ['Slow', 'Fast'], emoji: '🐢 / 🏎️' },
+    positivity: { label: ['Negative', 'Positive'], emoji: '😞 / 😃' },
+    sadness: { label: ['Happy', 'Sad'], emoji: '😊 / 😢' },
+    aggressiveness: { label: ['Passive', 'Aggressive'], emoji: '😶‍🌫️ / 💢' },
+  };
 
   return (
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col overflow-y-auto">
         <h2 className="text-quadary text-3xl text-center font-bold p-5">Settings</h2>
-        <div className="w-[90vw] rounded-lg bg-ternary pt-3 h-4/5 flex flex-col items-center overflow-y-auto">
+        <div className="w-[90vw] rounded-lg bg-secondary pt-3 h-4/5 flex flex-col items-center overflow-y-auto">
           <div className="w-full px-5 py-3">
-            <label className="text-primary text-bases pb-1"> Reset First Name</label>
+            <label className="text-primary text-base pb-1">Reset First Name</label>
             <input
               type="text"
               value={userData.user.first_name}
               placeholder="Enter New First Name"
               onChange={(e) => handleInputChange('first_name', e.target.value)}
-              className="w-full border-2 text-base rounded-md px-3 py-2 text-primary"
+              className="w-full border-2 text-base rounded-md px-3 text-primary"
             />
           </div>
-          <div className="w-full px-5 py-3">
-            <label className="text-primary text-base pb-1"> Reset Last Name</label>
+          <div className="w-full px-5 pb-5">
+            <label className="text-primary text-base pb-1">Reset Last Name</label>
             <input
               type="text"
               value={userData.user.last_name}
               placeholder="Enter New Last Name"
               onChange={(e) => handleInputChange('last_name', e.target.value)}
-              className="w-full border-2 rounded-md px-3 py-2 text-primary"
+              className="w-full border-2 rounded-md px-3 text-primary"
             />
           </div>
-          {Object.entries(userData.settings).map(([setting, value]) => (
-            <div key={setting} className="w-full px-5 py-3">
-              <label className="text-primary text-sm pb-1 capitalize">{setting}</label>
-              <div className="flex justify-between items-center">
-                <span className="text-primary text-xs">{settingLabels[setting][0]}</span>
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  value={value}
-                  onChange={(e) => handleSliderChange(setting, e.target.value)}
-                  className="w-full mx-3"
-                />
-                <span className="text-primary text-xs">{settingLabels[setting][1]}</span>
-              </div>
-              <div className="flex justify-between text-primary text-xs">
-                <span>0</span>
-                <span>{value}</span>
-                <span>10</span>
-              </div>
-            </div>
-          ))}
+          {Object.entries(userData.settings)
+            .filter(([setting]) => settingLabels[setting]) // Filter out unknown settings
+            .map(([setting, value]) => {
+              const { label, emoji } = settingLabels[setting];
+              return (
+                <div key={setting} className="w-full px-5 py-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-primary text-xs flex items-center">
+                      {label[0]} {emoji.split(' / ')[0]}
+                    </span>
+                    <span className="text-primary text-xs flex items-center">
+                      {label[1]} {emoji.split(' / ')[1]}
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="10"
+                    value={value}
+                    onChange={(e) => handleSliderChange(setting, e.target.value)}
+                    className="w-full appearance-none h-4 rounded-lg cursor-pointer bg-ternary"
+                    style={{
+                      background: `linear-gradient(to right, #D1FAE5 ${value * 10}%, #D1D5DB ${value * 10}%)`,
+                    }}
+                  />
+                  <div className="flex justify-between text-primary text-xs">
+                    <span></span>
+                    <span>{}</span>
+                    <span></span>
+                  </div>
+                </div>
+              );
+            })}
         </div>
         <button
           onClick={handleSave}
-          className="mt-5 bg-secondary text-primary font-bold py-2 px-4 rounded"
+          className="mt-5 bg-quadary text-primary font-bold py-2 px-4 rounded"
         >
           Save Settings
         </button>

@@ -307,14 +307,6 @@ function Home() {
   
         <button
           className="w-[3em] h-[3em] icons m-8"
-          onClick={() => navigate('/analytics')}
-        >
-          <img src={analytics} alt="Analytics" />
-          <h2 className="text-xs">Analytics</h2>
-        </button>
-  
-        <button
-          className="w-[3em] h-[3em] icons m-8"
           onClick={() => navigate('/settings')}
         >
           <img src={settings} alt="Settings" />
