@@ -65,7 +65,10 @@ function Home() {
 
   const startCapture = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }, // Use back camera
+        audio: false // We don't need audio input
+      });
       videoRef.current.srcObject = stream;
 
       // Connect to WebSocket using the environment variable
@@ -232,7 +235,9 @@ function Home() {
     const audioBlob = base64ToBlob(base64Audio, 'audio/mp3');
     const audioUrl = URL.createObjectURL(audioBlob);
     audioRef.current.src = audioUrl;
-    audioRef.current.play();
+    audioRef.current.play().catch(error => {
+      console.error('Error playing audio:', error);
+    });
   };
 
   const base64ToBlob = (base64, mimeType) => {
@@ -284,7 +289,7 @@ function Home() {
       <AnimatedBackground />
       <div className="w-full h-[85vh] z-10 flex flex-col items-center justify-center relative">
         <h2 className="pb-10 px-5 text-ternary text-center">
-          Press the button to communicate with Big Green Brother
+          Press the button to communicate with Green Brother
         </h2>
   
         <button
