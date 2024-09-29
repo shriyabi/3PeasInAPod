@@ -2,7 +2,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Response
 from core import Connection
 from fastapi.middleware.cors import CORSMiddleware
 
-from utils.current_img import get_current_img, set_current_img
+from utils.current_img import get_current_img
 
 app: FastAPI = FastAPI()
 origins = [
@@ -43,12 +43,31 @@ async def websocket_endpoint(websocket: WebSocket):
         manager.disconnect(connection)
 
 
-
 @app.get("/current_img")
 async def read_current_img():
     ## get_current_img() returns the current image in bytes,
     # convert it to a base 64 string and return it
-    
+
     img = get_current_img()
     return Response(content=img, media_type="image/jpeg")
 
+
+@app.get("/img")
+async def img_endpoint():
+
+    html = """<html>
+        <head>
+            <title>Image</title>
+        </head>
+        <body>
+            <img src="/current_img" />
+        </body>
+        </html>
+        
+        <script>
+            setInterval(() => {
+                document.querySelector('img').src = '/current_img?rand=' + Math.random();
+            }, 100);
+        </script>"""
+
+    return Response(content=html, media_type="text/html")
