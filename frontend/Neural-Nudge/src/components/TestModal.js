@@ -9,6 +9,7 @@ const TextModal = ({ isOpen, onClose, content }) => {
       contentLabel="Text Modal"
       className="modal"
       overlayClassName="overlay"
+      ariaHideApp={false} // Add this line
     >
       <div className="modal-content">
         <div dangerouslySetInnerHTML={{ __html: content }} />

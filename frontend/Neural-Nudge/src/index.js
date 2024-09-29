@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Modal from 'react-modal';
 import './index.css';
 import App from './App';
 import Home from './Dashboard'; 
@@ -8,6 +9,9 @@ import Settings from './Settings';
 import reportWebVitals from './reportWebVitals';
 import Privacy from './Privacy';
 import Temp from './Temp';
+
+// Set the app element for react-modal
+Modal.setAppElement('#root');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
