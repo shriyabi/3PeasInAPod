@@ -1,10 +1,6 @@
 import React from 'react';
-import { useNavigate, useNavigationType } from 'react-router-dom';
-import home from './home.png';
-import settings from './application-settings.png';
 
 const Temp = () => {
-    const navigate = useNavigate();
     return (
         <div className="bg-primary min-h-screen text-quadary">
             <div className="w-full p-5">
@@ -52,22 +48,6 @@ const Temp = () => {
                         <strong>Protect Wildlife:</strong> Recycling your glass bottle reduces the chances of wildlife encountering and being harmed by it.
                     </p>
                 </div>
-            </div>
-            <div className="w-full h-[15vh] z-10 bg-quadary flex justify-center items-center">
-                <button
-                    className="w-[3em] h-[3em] icons m-8 hover:text-secondary"
-                    onClick={() => navigate('/dashboard')}
-                >
-                    <img src={home} alt="Home" />
-                    <h2 className="text-xs text-primary">Home</h2>
-                </button>
-                <button
-                className="w-[3em] h-[3em] text-primary icons m-8"
-                onClick={() => navigate('/settings')}
-            >
-                <img src={settings} alt="Settings" />
-                <h2 className="text-xs">Settings</h2>
-            </button>
             </div>
         </div>
   );

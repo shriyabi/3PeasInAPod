@@ -296,12 +296,13 @@ function Home() {
           </div>
         </button>
         
-        {displayText && (
+        <div>
+        {(
           <button
-            className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="mt-4 bg-ternary text-primary font-bold py-2 px-4 rounded"
             onClick={() => setIsModalOpen(true)}
           >
-            Show Text
+            Click Here For More Information
           </button>
         )}
 
@@ -317,6 +318,7 @@ function Home() {
             </div>
           }
         />
+        </div>
       </div>
   
       <div className="w-full h-[15vh] z-10 bg-quadary flex justify-center items-center">
