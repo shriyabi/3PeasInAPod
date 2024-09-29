@@ -1,57 +1,53 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
 
-function SignIn() {
-    const navigate = useNavigate();
+function GoogleSignInButton() {
+  const navigate = useNavigate(); // For route navigation after sign-in
 
-    useEffect(() => {
-        const initializeGoogleSignIn = () => {
-            window.google.accounts.id.initialize({
-                client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-                callback: handleCredentialResponse
-            });
-            renderGoogleButton();
-        };
+  const handleCredentialResponse = (googleUser) => {
+    const profile = googleUser.getBasicProfile();
+    console.log("ID Token: " + googleUser.getAuthResponse().id_token);
+    console.log("Full Name: " + profile.getName());
+    console.log("Email: " + profile.getEmail());
 
-        const script = document.createElement('script');
-        script.src = 'https://accounts.google.com/gsi/client';
-        script.onload = initializeGoogleSignIn;
-        script.async = true;
-        script.defer = true;
-        document.body.appendChild(script);
+    // Navigate to dashboard
+    navigate('/dashboard');
+  };
 
-        return () => {
-            document.body.removeChild(script);
-            window.removeEventListener('resize', renderGoogleButton);
-        };
-    }, []);
-
-    const handleCredentialResponse = (response) => {
-        console.log("Encoded JWT ID token: " + response.credential);
-        navigate('/Dashboard');
+  useEffect(() => {
+    // Load and initialize gapi
+    const loadGapi = () => {
+      window.gapi.load('auth2', () => {
+        window.gapi.auth2.init({
+          client_id: '784258720680-hq4olvj0blr0mq0in5210vq9j2dodktg.apps.googleusercontent.com', // Replace with your actual Client ID
+        }).then(() => {
+          // Render the Google Sign-In button
+          window.gapi.signin2.render('signInDiv', {
+            scope: 'profile email',
+            width: 240,
+            height: 50,
+            longtitle: true,
+            theme: 'dark',
+            onsuccess: handleCredentialResponse,
+          });
+        });
+      });
     };
 
-    const renderGoogleButton = () => {
-        const width = window.innerWidth;
-        let size = width < 768 ? 'small' : width < 1024 ? 'medium' : 'large';
-        
-        const signInDiv = document.getElementById('signInDiv');
-        if (signInDiv) {
-            signInDiv.innerHTML = '';
-            window.google.accounts.id.renderButton(signInDiv, { theme: 'outline', size: size });
-        }
+    // Check if gapi is available
+    if (window.gapi) {
+      loadGapi();
+    } else {
+      console.error('gapi not loaded');
+    }
+
+    // Cleanup on component unmount
+    return () => {
+      // If necessary, perform any gapi-related cleanup
     };
+  }, []);
 
-    useEffect(() => {
-        window.addEventListener('resize', renderGoogleButton);
-        return () => window.removeEventListener('resize', renderGoogleButton);
-    }, []);
-
-    return (
-        <div className='flex items-center justify-center'>
-            <div id="signInDiv" className="flex justify-center"></div>
-        </div>
-    );
+  return <div id="signInDiv"></div>; // Div for Google Sign-In button
 }
 
-export default SignIn;
+export default GoogleSignInButton;
