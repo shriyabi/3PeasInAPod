@@ -228,7 +228,7 @@ function Home() {
       case 'Groq_Response':
         console.log('Groq_Response');
         console.log(payload);
-        setDisplayText(payload.text);
+        setDisplayText(payload.groq_summary);
         stopCapture();
         break;
       default:
