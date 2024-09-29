@@ -246,10 +246,16 @@ function Home() {
     }
   };
 
+  const uhh = "poop"; 
+  var tryy = false; 
   //let text = "poop"; 
   //should be paylood.text
   const dispText = () => {
-    setDisplayText('poop'); // Set the text to display
+    tryy = true; 
+    if(tryy) {
+      setDisplayText(uhh); // Set the text to display
+    }
+    tryy = false; 
   };
 
   const updateUserData = (newData) => {
