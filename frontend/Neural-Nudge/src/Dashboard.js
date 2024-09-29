@@ -6,6 +6,7 @@ import App from './App.css';
 import settings from './application-settings.png';
 import on from './on-button.png';
 import off from './on-off.png';
+import TextModal from './components/TestModal';
 import Animate from 'animate.css-react'
 import 'animate.css/animate.css'
 import AnimatedBackground from './components/AnimatedBackground';
@@ -20,6 +21,8 @@ function Home() {
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
   const audioRef = useRef(new Audio());
   const [isAnimating, setIsAnimating] = useState('animate__animated animate__flipInY');
+  const [displayText, setDisplayText] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [coolAnimation, setCoolAnimation] = useState('');
   const [displayText, setDisplayText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
