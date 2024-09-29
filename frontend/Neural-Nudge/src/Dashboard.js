@@ -10,6 +10,36 @@ function Home() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [socket, setSocket] = useState(null);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    // Load user data from localStorage on component mount
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    } else {
+      // Set default values if no data is stored
+      const defaultUserData = {
+        user: {
+          id: Date.now(), // Generate a unique ID
+          first_name: '',
+          last_name: '',
+        },
+        settings: {
+          // Add your default settings here
+          speed: 5,
+          anger: 5,
+          curiosity: 5,
+          positivity: 5,
+          surprise: 5,
+          sadness: 5,
+          aggressiveness: 5,
+        }
+      };
+      setUserData(defaultUserData);
+      localStorage.setItem('userData', JSON.stringify(defaultUserData));
+    }
+  }, []);
 
   useEffect(() => {
     let interval;
@@ -30,20 +60,27 @@ function Home() {
         console.log('WebSocket connected');
         setSocket(ws);
 
-        const payload = {
-          type: "register",
-          payload: {
-            user: {
-              id: 69,
-              first_name: 
-              last_name:
-            },
-            settings: {
-
+        if (userData) {
+          const payload = {
+            type: "register",
+            payload: {
+              user: {
+                id: userData.user.id,
+                first_name: userData.user.first_name,
+                last_name: userData.user.last_name,
+              },
+                speed: userData.settings.speed,
+                anger: userData.settings.anger,
+                curiosity: userData.settings.curiosity,
+                positivity: userData.settings.positivity,
+                surprise: userData.settings.surprise,
+                sadness: userData.settings.sadness,
+                aggressiveness: userData.settings.aggressiveness,
             }
-          }
-        };
-        ws.send(JSON.stringify(payload));
+          };
+          console.log(payload);
+          ws.send(JSON.stringify(payload));
+        }
       };
       ws.onerror = (error) => {
         console.error('WebSocket error:', error);
@@ -99,29 +136,35 @@ function Home() {
     }
   };
 
+  const updateUserData = (newData) => {
+    const updatedUserData = { ...userData, ...newData };
+    setUserData(updatedUserData);
+    localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  };
+
   return (
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col">
         <button
-          className={`w-[10em] h-[10em] rounded-xl ${isCapturing === 'Start' ? 'bg-secondary' : 'bg-quadary'}`}
+          className={`w-[10em] h-[10em] rounded-xl ${isCapturing ? 'bg-secondary' : 'bg-quadary'}`}
           onClick={toggleCapture}
         >
-          {isCapturing === 'Start' ? 'Stop' : 'Start'}
+          {isCapturing ? 'Stop' : 'Start'}
         </button>
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
       <div className="w-full h-[15vh] bg-quadary flex-row flex justify-center items-center">
         <button className="w-[3em] h-[3em] icons m-8">
-          <img src={home} />
+          <img src={home} alt="Home" />
           <h2 className="text-xs"> Home </h2>
         </button>
         <button className="w-[3em] h-[3em] icons m-8">
-          <img src={analytics} />
+          <img src={analytics} alt="Analytics" />
           <h2 className="text-xs"> Analytics </h2>
         </button>
         <button className="w-[3em] h-[3em] icons m-8">
-          <img src={settings} />
+          <img src={settings} alt="Settings" />
           <h2 className="text-xs"> Settings </h2>
         </button>
       </div>
