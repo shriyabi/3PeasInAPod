@@ -17,8 +17,6 @@ async def cartesia_request(transcript: str) :
         "voice": {"mode": "id", "id": "a0e99841-438c-4a64-b679-ae501e7d6091"},
         "output_format": {"container": "mp3", "encoding": "mp3", "sample_rate": 44100},
     }
-    
-    print(api_key)
 
     response = requests.post(url, headers=headers, json=data, stream=True)
 
