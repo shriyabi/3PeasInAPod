@@ -6,12 +6,12 @@ import GoogleSignInButton from './components/Sign-In';
 
 function App() {
   const navigate = useNavigate();
-  const [first_name, setFirstName] = useState('');
-  const [last_name, setLastName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   const handleClick = () => {
     // Perform validation or submission here
-    navigate('/dashboard', { state: { first_name, last_name } });
+    navigate('/dashboard', { state: { firstName, lastName } });
   };
 
   return (
@@ -23,21 +23,21 @@ function App() {
         <div className="w-3/4 rounded-lg bg-quadary pt-3 h-3/5 flex flex-col items-center">
           <h2 className="text-base px-2 italic text-primary text-center font-semibold">Please input your first and last name</h2>
           <form className='flex justify-center flex-col items-start h-3/4 px-3 w-full'>
-            <label htmlFor="email" className="text-sm pb-1 m-0"> First Name </label>
+            <label htmlFor="firstName" className="text-sm pb-1 m-0"> First Name </label>
             <input
-              id="email"
+              id="firstName"
               type="name"
-              value={email}
-              onChange ={(e) => setEmail(e.target.value)}
+              value={firstName}
+              onChange ={(e) => setFirstName(e.target.value)}
               placeholder='First Name'
               className="rounded-sm px-3 border-shadow w-full"
             />
-            <label htmlFor="password" className="text-sm pb-1 pt-5"> Last Name </label>
+            <label htmlFor="lastName" className="text-sm pb-1 pt-5"> Last Name </label>
             <input
-              id="password"
+              id="lastName"
               type="name"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
               placeholder='Last Name'
               className="rounded-sm px-3 border-shadow w-full"
             />
