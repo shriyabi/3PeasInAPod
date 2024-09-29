@@ -9,10 +9,10 @@ const TextModal = ({ isOpen, onClose, content }) => {
       contentLabel="Text Modal"
       className="modal"
       overlayClassName="overlay"
-      ariaHideApp={false} // Add this line
+      ariaHideApp={false}
     >
       <div className="modal-content">
-        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <div>{content}</div>
         <button onClick={onClose} className="close-button">Close</button>
       </div>
     </Modal>
