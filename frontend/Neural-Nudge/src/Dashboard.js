@@ -6,8 +6,6 @@ import App from './App.css';
 import settings from './application-settings.png'; 
 import on from './on-button.png';
 import off from './on-off.png';
-import Animate from 'animate.css-react';
-import 'animate.css/animate.min.css'; 
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -17,7 +15,7 @@ function Home() {
   const [userData, setUserData] = useState(null);
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
   const audioRef = useRef(new Audio());
-  const [animationClass, setAnimationClass] = useState(false); 
+  const [buttonRotation, setButtonRotation] = useState(0);
 
   const navigate = useNavigate(); 
 
@@ -98,7 +96,10 @@ function Home() {
 
       setSocket(ws);
       setIsCapturing(true);
+<<<<<<< HEAD
       setIsAnimating('animate__animated animate__rotateIn');
+=======
+>>>>>>> 4a7d141d2454a6db751a93a9925c3b71cfc1a5d2
     } catch (err) {
       console.error("Error accessing camera or connecting to WebSocket:", err);
     }
@@ -116,7 +117,10 @@ function Home() {
     }
 
     setIsCapturing(false);
+<<<<<<< HEAD
     setIsAnimating('animate__animated animate__flipInY');
+=======
+>>>>>>> 4a7d141d2454a6db751a93a9925c3b71cfc1a5d2
     setSocket(null);
   };
 
@@ -240,11 +244,11 @@ function Home() {
 
   const toggleCapture = () => {
     if (isCapturing) {
-      //setAnimationClass('animate__animated animate__rotateOut');
       stopCapture();
+      setButtonRotation(0);
     } else {
-     // setAnimationClass('animate__animated animate__rotateIn');
       startCapture();
+      setButtonRotation(180);
     }
   };
 
@@ -258,6 +262,7 @@ function Home() {
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col">
         <h2 class="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
+<<<<<<< HEAD
         <button
           className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing === "True" ? 'bg-secondary' : 'bg-secondary'}`}
           onClick={toggleCapture}
@@ -266,6 +271,17 @@ function Home() {
           <img src={isCapturing ? off : on}/>
           </div> 
         </button>
+=======
+        <div className="flex justify-center items-center">
+          <button
+            className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing ? 'bg-secondary' : 'bg-secondary'} transition-transform duration-500 ease-in-out`}
+            onClick={toggleCapture}
+          >
+            <img src={isCapturing ? off : on} alt="Power button" className="transition-transform duration-500 ease-in-out" 
+            style={{ transform: `rotate(${buttonRotation}deg)` }}/>
+          </button>
+        </div>
+>>>>>>> 4a7d141d2454a6db751a93a9925c3b71cfc1a5d2
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
