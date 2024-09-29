@@ -35,11 +35,11 @@ function Home() {
           payload: {
             user: {
               id: 69,
-              first_name: 
-              last_name:
+              first_name: "John",
+              last_name: "Doe"
             },
             settings: {
-
+                
             }
           }
         };
