@@ -214,6 +214,7 @@ function Home() {
         {
           const nextResponse = await waitForResponse();
           await handleAnalysisResponse(nextResponse);
+          stopCapture();
         }
         break;
       case 'Groq_Response':
