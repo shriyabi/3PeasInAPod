@@ -5,7 +5,7 @@ from .types import User, Settings, Message, RegisterPayload, SettingsPayload, An
 from ..utils.roboflow_api import roboflow_infer
 from ..utils.openai_api import openai_infer
 from ..utils.groq_api import get_groq_summary
-
+from ..utils.cartesia_api import cartesia_request
 class Connection:
     def __init__(self, websocket: WebSocket):
         self.websocket: WebSocket = websocket
@@ -130,7 +130,7 @@ class Connection:
             await self.websocket.send_json(response)
             return
 
-        # get cartesia audio
+        audio_b64 = await cartesia_request(openai_result["message"])
 
         analysis_response: AnalysisResponse = {
             "type": "analysis",
@@ -139,7 +139,7 @@ class Connection:
                 "responded": True,
                 "response_text": openai_result["message"],
                 "severity": openai_result["severity"],
-                "audio_b64": "audio_b64",
+                "audio_b64": audio_b64,
             }
         }
         await self.websocket.send_json(analysis_response)
