@@ -2,3 +2,5 @@ fastapi[all]
 groq
 openai
 roboflow
+cartesia
+inference_sdk
