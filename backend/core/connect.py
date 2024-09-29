@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from fastapi import WebSocket
 from .types import User, Settings, Message, RegisterPayload, SettingsPayload, AnalysisPayload, RegisterResponse, SettingsResponse, AnalysisResponse
-from ..utils.roboflow_api import roboflow_infer
-from ..utils.openai_api import openai_infer
-from ..utils.groq_api import get_groq_summary
-from ..utils.cartesia_api import cartesia_request
+
+from utils.roboflow_api import roboflow_infer
+from utils.openai_api import openai_infer
+from utils.groq_api import get_groq_summary
+from utils.cartesia_api import cartesia_request
+
 class Connection:
     def __init__(self, websocket: WebSocket):
         self.websocket: WebSocket = websocket
