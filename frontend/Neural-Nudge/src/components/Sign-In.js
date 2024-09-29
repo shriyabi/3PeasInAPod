@@ -2,40 +2,54 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 function SignIn() {
-    
     const navigate = useNavigate();
-    function renderGoogleButton() {
-        const width = window.innerWidth;
-        let size = 'large';
-        if (width < 768) {
-            size = 'small';
-        } else if (width < 1024) {
-            size = 'medium';
-        }
-        document.getElementById('signInDiv').innerHTML = '';
-        window.google.accounts.id.renderButton(
-            document.getElementById('signInDiv'),
-            { theme: 'outline', size: size }
-        );
-    }
 
     useEffect(() => {
-        window.google.accounts.id.initialize({
-            client_id: "784258720680-hq4olvj0blr0mq0in5210vq9j2dodktg.apps.googleusercontent.com",
-            callback: handleCredentialResponse
-        });
-        renderGoogleButton();
+        const initializeGoogleSignIn = () => {
+            window.google.accounts.id.initialize({
+                client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse
+            });
+            renderGoogleButton();
+        };
+
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.onload = initializeGoogleSignIn;
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+            window.removeEventListener('resize', renderGoogleButton);
+        };
     }, []);
-       //success so navigate to dashbaord
-       const handleCredentialResponse = (response) => {
+
+    const handleCredentialResponse = (response) => {
         console.log("Encoded JWT ID token: " + response.credential);
-        navigate('/Dashboard')
-    }
-    // Add an event listener for window resize
-    window.addEventListener('resize', renderGoogleButton);
+        navigate('/Dashboard');
+    };
+
+    const renderGoogleButton = () => {
+        const width = window.innerWidth;
+        let size = width < 768 ? 'small' : width < 1024 ? 'medium' : 'large';
+        
+        const signInDiv = document.getElementById('signInDiv');
+        if (signInDiv) {
+            signInDiv.innerHTML = '';
+            window.google.accounts.id.renderButton(signInDiv, { theme: 'outline', size: size });
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', renderGoogleButton);
+        return () => window.removeEventListener('resize', renderGoogleButton);
+    }, []);
+
     return (
         <div className='flex items-center justify-center'>
-            <div id="signInDiv" className="flex justify-center"> temp </div>
+            <div id="signInDiv" className="flex justify-center"></div>
         </div>
     );
 }
