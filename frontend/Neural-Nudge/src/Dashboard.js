@@ -297,14 +297,14 @@ function Home() {
         </button>
         
         <div className="">
-        {(displayText && 
+        {displayText && 
           <button
             className="mt-4 bg-ternary text-sm text-primary font-bold py-0 px-1 rounded"
             onClick={() => setIsModalOpen(true)}
           >
             More Information
           </button>
-        )}
+        }
 
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
@@ -321,7 +321,7 @@ function Home() {
         </div>
       </div>
   
-      <div className="w-full h-[15vh] z-10 bg-quadary flex justify-center items-center">
+      <div className="w-auto h-auto rounded-xl m-10 bg-quadary flex justify-center items-center">
         <button
           className="w-[3em] h-[3em] icons m-8 hover:text-secondary"
           onClick={() => navigate('/dashboard')}

@@ -24,7 +24,7 @@ function App() {
         <h2 className="text-ternary text-3xl text-center font-bold p-5"> Green Brother Welcomes You </h2>
       </div>
       <div className="text-white flex-col items-center flex justify-start w-full h-2/3">
-        <div className="w-3/4 rounded-lg bg-quadary pt-3 h-3/5 flex flex-col items-center">
+        <div className="w-3/4 md:w-1/3 rounded-lg bg-quadary pt-3 h-3/5 flex flex-col items-center">
           <h2 className="text-base px-2 italic text-primary text-center font-semibold">Please input your first and last name</h2>
           <form className='flex justify-center flex-col items-start h-3/4 px-3 w-full'>
             <label htmlFor="email" className="text-sm pb-1 m-0"> First Name </label>
