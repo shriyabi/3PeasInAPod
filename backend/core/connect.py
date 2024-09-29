@@ -130,7 +130,16 @@ class Connection:
         response["payload"]["status"] = "Accepted"
         await self.websocket.send_json(response)
         
-        openai_result = await openai_infer(payload["image_b64"])
+        openai_result = await openai_infer(payload["image_b64"],
+                                           speed=self.settings["speed"],
+                                           anger=self.settings["anger"],
+                                           curiosity=self.settings["curiosity"],
+                                           positivity=self.settings["positivity"],
+                                           surprise=self.settings["surprise"],
+                                           sadness=self.settings["sadness"],
+                                           aggressiveness=self.settings["aggressiveness"],
+                                           first_name=self.user["first_name"],
+                                           last_name=self.user["last_name"])
         openai_result = json.loads(openai_result)
 
         if openai_result["action"] == "None":
