@@ -188,6 +188,7 @@ function Home() {
     if (!payload.success) {
       console.log("Something really fucked up happened");
       console.log(response);
+      stopCapture();
       throw new Error("Something really fucked up happened");
     }
     switch (payload.status) {
