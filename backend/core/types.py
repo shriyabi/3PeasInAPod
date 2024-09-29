@@ -17,6 +17,7 @@ class Settings(TypedDict):
     positivity: SliderRange
     surprise: SliderRange
     sadness: SliderRange
+    aggressiveness: SliderRange
     # voice: Voice
 
 """ Json Payload Typing """
