@@ -2,7 +2,7 @@ from openai import OpenAI
 from utils.configs import get_config
 
 
-client = OpenAI(api_key=get_config()["OPENAI_API_KEY"])
+client = OpenAI(api_key=get_config("OPENAI_API_KEY"))
 
 
 USER_PROMPT = """

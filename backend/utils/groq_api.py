@@ -2,7 +2,7 @@ from groq import Groq
 from utils.configs import get_config
 
 client = Groq(
-    api_key=get_config()["GROQ_API_KEY"],
+    api_key=get_config("GROQ_API_KEY"),
 )
 
 
