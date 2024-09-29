@@ -14,6 +14,10 @@ function Home() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [socket, setSocket] = useState(null);
+  const [animationClass, setAnimationClass] = useState('');
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     let interval;
@@ -54,6 +58,7 @@ function Home() {
       };
 
       setIsCapturing(true);
+      setAnimationClass('animate__animated animate__rotateIn');
     } catch (err) {
       console.error("Error accessing camera or connecting to WebSocket:", err);
     }
@@ -71,6 +76,7 @@ function Home() {
     }
 
     setIsCapturing(false);
+    setAnimationClass('animate__animated animate__flipInY');
     setSocket(null);
   };
 
@@ -97,30 +103,42 @@ function Home() {
 
   const toggleCapture = () => {
     if (isCapturing) {
+      //setAnimationClass('animate__animated animate__rotateOut');
       stopCapture();
     } else {
+     // setAnimationClass('animate__animated animate__rotateIn');
       startCapture();
     }
   };
+
+  useEffect(() => {
+    const image = new Image();
+    image.src = 'path/to/your/image.png'; // Replace with your image path
+    image.onload = () => {
+      setImageLoaded(true);
+    };
+  }, []);
   
+ 
   return (
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col">
         <h2 class="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
+        
         <button
-          className={`w-[10em] h-[10em] p-5 rounded-3xl ${isCapturing === 'Start' ? 'bg-ternary' : 'bg-secondary'}`}
+          className={`w-[10em] h-[10em] p-5 flex justify-center items-center rounded-3xl ${isCapturing === 'True' ? 'bg-ternary' : 'bg-secondary'}`}
           onClick={toggleCapture}
         >
-          <Animate
-            appear={isCapturing ? rotateOut : rotateIn}
-            durationAppear={1000}
-            component="img" > <img src={isCapturing ? off : on} /> </Animate>
-        </button>
+          <div className={`w-[10em] h-[10em] flex justify-center items-center rounded-xl ${animationClass}`} >
+            <img src={isCapturing ? off : on}/>
+          </div>
+          
+        </button> 
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
       <div className="w-full h-[15vh] bg-quadary flex-row flex justify-center items-center">
-        <button className="w-[3em] h-[3em] icons m-8 hover:text-secondary">
+        <button className="w-[3em] h-[3em] icons m-8 hover:text-secondary" onClick={()=>navigate('/dashboard')}>
           <img src={home} />
           <h2 className="text-xs"> Home </h2>
         </button>
@@ -128,7 +146,7 @@ function Home() {
           <img src={analytics} />
           <h2 className="text-xs"> Analytics </h2>
         </button>
-        <button className="w-[3em] h-[3em] icons m-8">
+        <button className="w-[3em] h-[3em] icons m-8" onClick={()=>navigate('/settings')}>
           <img src={settings} />
           <h2 className="text-xs"> Settings </h2>
         </button>
