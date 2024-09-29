@@ -6,12 +6,12 @@ import GoogleSignInButton from './components/Sign-In';
 
 function App() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
 
   const handleClick = () => {
     // Perform validation or submission here
-    navigate('/dashboard');
+    navigate('/dashboard', { state: { first_name, last_name } });
   };
 
   return (

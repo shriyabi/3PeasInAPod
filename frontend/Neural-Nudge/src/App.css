@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.icons {
+  filter: drop-shadow(2em 2em #483838);
+}
