@@ -22,6 +22,9 @@ function App() {
           positivity: 5,
           sadness: 5,
           aggressiveness: 5,
+          anger: 5,
+          curiosity: 5,
+          surprise: 5,
         },
       };
       setUserData(defaultUserData);
@@ -37,6 +40,9 @@ function App() {
         ...userData.user,
         [field]: value,
       },
+      settings: {
+        ...userData.settings,
+      }
     };
     setUserData(updatedUserData);
     localStorage.setItem('userData', JSON.stringify(updatedUserData));
