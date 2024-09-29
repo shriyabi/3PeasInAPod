@@ -56,7 +56,8 @@ function App() {
           </div>
         </div> 
         <button onClick={priv}>
-          <h2 className="pt-2 px-3 text-center text-ternary text-xs"> By using our services, you consent to the terms of this Privacy Policy. 
+          <h2 className="pt-2 px-3 text-center text-ternary text-xs"> 
+            By using our services, you consent to the terms of this <span className="underline">Privacy Policy</span>. 
           </h2>
         </button>
       </div>
