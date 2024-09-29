@@ -10,7 +10,6 @@ import TextModal from './components/TestModal';
 import Animate from 'animate.css-react'
 import 'animate.css/animate.css'
 import AnimatedBackground from './components/AnimatedBackground';
-import TextModal from './components/TestModal';
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
