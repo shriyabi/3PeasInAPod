@@ -1,5 +1,5 @@
 from groq import Groq
-from configs import get_config
+from utils.configs import get_config
 
 client = Groq(
     api_key=get_config()["GROQ_API_KEY"],

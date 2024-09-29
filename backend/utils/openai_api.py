@@ -112,7 +112,7 @@ Aggressiveness: {aggressiveness}
 """
 
 
-async def get_image_summary(
+async def openai_infer(
     base64_image: str,  # base 64 image
     model: str = "gpt-4o",
     speed: int = 2,
