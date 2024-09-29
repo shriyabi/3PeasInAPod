@@ -4,7 +4,7 @@ from utils.configs import get_config
 
 # initialize the client
 CLIENT = InferenceHTTPClient(
-    api_url="https://detect.roboflow.com", api_key=get_config()["ROBOFLOW_API_KEY"]
+    api_url=get_config()["ROBOFLOW_ENDPOINT"], api_key=get_config()["ROBOFLOW_API_KEY"]
 )
 
 
