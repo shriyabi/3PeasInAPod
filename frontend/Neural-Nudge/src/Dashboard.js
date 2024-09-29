@@ -283,11 +283,12 @@ function Home() {
         </h2>
   
         <button
-          className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing ? 'bg-secondary' : 'bg-secondary'}  animate__animated animate__zoomIn`}
+          className={`w-[10em] h-[10em] flex flex-col p-7 rounded-xl ${isCapturing ? 'bg-quadary' : 'bg-secondary'}  animate__animated animate__zoomIn`}
           onClick={toggleCapture}
         >
-          <div className={`flex justify-center items-center ${isAnimating}`}>
+          <div className={`flex justify-center flex-col items-center ${isAnimating}`}>
             <img src={isCapturing ? off : on} alt="capture status" />
+            <h1 class="text-base pt-1"> {isCapturing ? 'OFF' : 'ON' } </h1>
           </div>
         </button>
   
