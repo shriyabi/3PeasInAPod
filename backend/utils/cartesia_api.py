@@ -1,5 +1,4 @@
 import requests
-import base64
 from utils.configs import get_config
 
 

@@ -135,7 +135,7 @@ class Connection:
         response["payload"]["status"] = "Accepted"
         # print("Object detected.")
         logging.info("Object detected.")
-        set_current_img(base64.decode((payload["image_b64"])))
+        set_current_img(base64.b64decode((payload["image_b64"])))
         await self.websocket.send_json(response)
         
         openai_result = await openai_infer(payload["image_b64"],
