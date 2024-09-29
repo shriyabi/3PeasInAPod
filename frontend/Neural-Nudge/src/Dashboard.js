@@ -116,6 +116,7 @@ function Home() {
     const stream = videoRef.current.srcObject;
     const tracks = stream.getTracks();
     tracks.forEach(track => track.stop());
+    setIsCapturing(false);
 
     // Disconnect WebSocket
     if (socket) {
