@@ -25,6 +25,7 @@ function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coolAnimation, setCoolAnimation] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [modalContent, setModalContent] = useState('');
 
   const navigate = useNavigate();
 
@@ -234,7 +235,7 @@ function Home() {
         console.log('Groq_Response');
         console.log(payload);
         setDisplayText(payload.groq_summary);
-        setIsModalOpen(true);  // Open the modal immediately when we get the Groq response
+        setModalContent(payload.groq_summary);  // Store the content, but don't open the modal yet
         stopCapture();
         break;
       default:
@@ -323,7 +324,7 @@ function Home() {
         {(displayText && 
           <button
             className="mt-4 bg-ternary text-sm text-primary font-bold py-0 px-1 rounded"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsModalOpen(true)}  // Open the modal when this button is clicked
           >
             More Information
           </button>
@@ -335,11 +336,7 @@ function Home() {
         <TextModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          content={
-            <div>
-              {displayText}
-            </div>
-          }
+          content={modalContent}
         />
         </div>
       </div>

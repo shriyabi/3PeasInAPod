@@ -14,7 +14,17 @@ const TextModal = ({ isOpen, onClose, content }) => {
     },
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.75)', // Semi-transparent black overlay
+      zIndex: 1000, // Ensure the modal appears in front
     },
+  };
+
+  const formatContent = (text) => {
+    return text.split(/(\*\*.*?\*\*)/).map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={index}>{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
   };
 
   return (
@@ -26,7 +36,7 @@ const TextModal = ({ isOpen, onClose, content }) => {
       ariaHideApp={false}
     >
       <div className="modal-content">
-        <p>{content}</p>
+        <p>{formatContent(content)}</p>
         <button 
           onClick={onClose} 
           className="close-button"
