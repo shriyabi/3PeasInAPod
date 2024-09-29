@@ -212,12 +212,12 @@ function Home() {
         console.log('No_Response');
         break;
       case 'Responded':
+        stopCapture();
         console.log('Responded');
         playAudio(payload.audio_b64);
         {
           const nextResponse = await waitForResponse();
           await handleAnalysisResponse(nextResponse);
-          stopCapture();
         }
         break;
       case 'Groq_Response':
