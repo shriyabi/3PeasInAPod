@@ -7,6 +7,7 @@ import Home from './Dashboard';
 import Settings from './Settings'; 
 import reportWebVitals from './reportWebVitals';
 import Privacy from './Privacy';
+import Temp from './Temp';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +17,7 @@ root.render(
       <Route path="/dashboard" element={<Home />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/privacy" element={<Privacy />} />
+      <Route path="/temp" element={<Temp />} />
     </Routes>
   </Router>
 );
