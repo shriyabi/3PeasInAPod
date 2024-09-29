@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import home from './home.png';
 import analytics from './analytic-chart.png';
 import App from './App.css';
-import settings from './application-settings.png'
+import settings from './application-settings.png'; 
+import on from './on-button.png';
+import off from './on-off.png';
+import Animate from 'animate.css-react';
+import 'animate.css/animate.min.css'; 
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -13,6 +17,9 @@ function Home() {
   const [userData, setUserData] = useState(null);
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
   const audioRef = useRef(new Audio());
+  const [animationClass, setAnimationClass] = useState(false); 
+
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     // Load user data from localStorage on component mount
@@ -91,6 +98,7 @@ function Home() {
 
       setSocket(ws);
       setIsCapturing(true);
+      setAnimationClass('animate__animated animate__rotateIn');
     } catch (err) {
       console.error("Error accessing camera or connecting to WebSocket:", err);
     }
@@ -108,6 +116,7 @@ function Home() {
     }
 
     setIsCapturing(false);
+    setAnimationClass('animate__animated animate__flipInY');
     setSocket(null);
   };
 
@@ -231,8 +240,10 @@ function Home() {
 
   const toggleCapture = () => {
     if (isCapturing) {
+      //setAnimationClass('animate__animated animate__rotateOut');
       stopCapture();
     } else {
+     // setAnimationClass('animate__animated animate__rotateIn');
       startCapture();
     }
   };
@@ -246,26 +257,29 @@ function Home() {
   return (
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col">
+        <h2 class="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
+        <div className='flex justify-center items-center ${animationClass}'>
         <button
-          className={`w-[10em] h-[10em] rounded-xl ${isCapturing ? 'bg-secondary' : 'bg-quadary'}`}
+          className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing === "True" ? 'bg-secondary' : 'bg-secondary'}`}
           onClick={toggleCapture}
         >
-          {isCapturing ? 'Stop' : 'Start'}
+          <img src={isCapturing ? off : on}/>
         </button>
+        </div>
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
       <div className="w-full h-[15vh] bg-quadary flex-row flex justify-center items-center">
-        <button className="w-[3em] h-[3em] icons m-8">
-          <img src={home} alt="Home" />
+        <button className="w-[3em] h-[3em] icons m-8 hover:text-secondary">
+          <img src={home} />
           <h2 className="text-xs"> Home </h2>
         </button>
         <button className="w-[3em] h-[3em] icons m-8">
-          <img src={analytics} alt="Analytics" />
+          <img src={analytics} />
           <h2 className="text-xs"> Analytics </h2>
         </button>
         <button className="w-[3em] h-[3em] icons m-8">
-          <img src={settings} alt="Settings" />
+          <img src={settings} />
           <h2 className="text-xs"> Settings </h2>
         </button>
       </div>
