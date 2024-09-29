@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import home from './home.png';
 import analytics from './analytic-chart.png';
 import App from './App.css';
-import settings from './application-settings.png'
+import settings from './application-settings.png'; 
+import on from './on-button.png';
+import off from './on-off.png';
+import Animate from 'animate.css-react';
+import 'animate.css/animate.min.css'; 
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -98,21 +102,25 @@ function Home() {
       startCapture();
     }
   };
-
+  
   return (
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col">
+        <h2 class="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
         <button
-          className={`w-[10em] h-[10em] rounded-xl ${isCapturing === 'Start' ? 'bg-secondary' : 'bg-quadary'}`}
+          className={`w-[10em] h-[10em] p-5 rounded-3xl ${isCapturing === 'Start' ? 'bg-ternary' : 'bg-secondary'}`}
           onClick={toggleCapture}
         >
-          {isCapturing === 'Start' ? 'Stop' : 'Start'}
+          <Animate
+            appear={isCapturing ? rotateOut : rotateIn}
+            durationAppear={1000}
+            component="img" > <img src={isCapturing ? off : on} /> </Animate>
         </button>
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
       <div className="w-full h-[15vh] bg-quadary flex-row flex justify-center items-center">
-        <button className="w-[3em] h-[3em] icons m-8">
+        <button className="w-[3em] h-[3em] icons m-8 hover:text-secondary">
           <img src={home} />
           <h2 className="text-xs"> Home </h2>
         </button>

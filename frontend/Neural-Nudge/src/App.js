@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import GoogleSignInButton from './components/Sign-In';
+import Animate from 'animate.css-react';
+import 'animate.css/animate.css';
 
 function App() {
   const navigate = useNavigate();
