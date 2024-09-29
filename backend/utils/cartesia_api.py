@@ -3,7 +3,7 @@ from utils.configs import get_config
 
 
 async def cartesia_request(transcript: str) :
-    api_key = get_config("CARTESIA_API_KEY")
+    api_key = get_config("CARTEASIA_API_KEY")
     url = "https://api.cartesia.ai/tts/bytes"
     headers = {
         "Cartesia-Version": "2024-06-10",
