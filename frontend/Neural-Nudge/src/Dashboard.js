@@ -241,7 +241,6 @@ function Home() {
   const toggleCapture = () => {
     if (isCapturing) {
       stopCapture();
-      setButtonRotation(0);
     } else {
       startCapture();
     }
@@ -273,7 +272,7 @@ function Home() {
 
   return (
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
-      <div className="w-full h-[85vh] flex items-center justify-center flex-col">
+      <div className="w-full h-[85vh] bg-ternary flex items-center justify-center flex-col">
         <h2 class="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
         <button
           className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing === "True" ? 'bg-secondary' : 'bg-secondary'}`}
@@ -283,10 +282,33 @@ function Home() {
             <img src={isCapturing ? off : on} />
           </div>
         </button>
-        
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
+      <div className="w-full h-[15vh] bg-quadary flex-row flex justify-center items-center">
+        <button
+          className="w-[3em] h-[3em] icons m-8 hover:text-secondary"
+          onClick={() => navigate('/dashboard')}
+        >
+          <img src={home} alt="Home" />
+          <h2 className="text-xs"> Home </h2>
+        </button>
+        <button
+          className="w-[3em] h-[3em] icons m-8"
+          onClick={() => navigate('/analytics')}
+        >
+          <img src={analytics} alt="Analytics" />
+          <h2 className="text-xs"> Analytics </h2>
+        </button>
+        <button
+          className="w-[3em] h-[3em] icons m-8"
+          onClick={() => navigate('/settings')}
+        >
+          <img src={settings} alt="Settings" />
+          <h2 className="text-xs"> Settings </h2>
+        </button>
+      </div>
+
     </div>
   );
 }

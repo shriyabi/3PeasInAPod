@@ -63,24 +63,26 @@ function Settings() {
   if (!userData) return null;
 
   return (
-    <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col pb-[15vh]">
+    <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
       <div className="w-full h-[85vh] flex items-center justify-center flex-col overflow-y-auto">
-        <h2 className="text-ternary text-3xl text-center font-bold p-5">Settings</h2>
-        <div className="w-3/4 rounded-lg bg-quadary pt-3 h-4/5 flex flex-col items-center overflow-y-auto">
+        <h2 className="text-quadary text-3xl text-center font-bold p-5">Settings</h2>
+        <div className="w-[90vw] rounded-lg bg-ternary pt-3 h-4/5 flex flex-col items-center overflow-y-auto">
           <div className="w-full px-5 py-3">
-            <label className="text-primary text-sm pb-1">First Name</label>
+            <label className="text-primary text-sm pb-1"> Reset First Name</label>
             <input
               type="text"
               value={userData.user.first_name}
+              placeholder="Enter New First Name"
               onChange={(e) => handleInputChange('first_name', e.target.value)}
               className="w-full rounded-sm px-3 py-2 text-primary"
             />
           </div>
           <div className="w-full px-5 py-3">
-            <label className="text-primary text-sm pb-1">Last Name</label>
+            <label className="text-primary text-sm pb-1"> Reset Last Name</label>
             <input
               type="text"
               value={userData.user.last_name}
+              placeholder="Enter New Last Name"
               onChange={(e) => handleInputChange('last_name', e.target.value)}
               className="w-full rounded-sm px-3 py-2 text-primary"
             />

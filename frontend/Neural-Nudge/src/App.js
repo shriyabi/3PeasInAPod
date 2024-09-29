@@ -70,7 +70,7 @@ function App() {
               name="firstName"
               type="text"
               defaultValue={userData?.user.first_name || ''}
-              placeholder='First Name'
+              placeholder='Enter First Name'
               className="rounded-sm px-3 border-shadow w-full"
             />
             <label htmlFor="lastName" className="text-sm pb-1 pt-5"> Last Name </label>
@@ -79,18 +79,19 @@ function App() {
               name="lastName"
               type="text"
               defaultValue={userData?.user.last_name || ''}
-              placeholder='Last Name'
+              placeholder='Enter Last Name'
               className="rounded-sm px-3 border-shadow w-full"
             />
-            <div className="bg-secondary flex flex-row justify-center items-center rounded-b-lg w-full h-1/4 mt-5">
+          </form>
+          <div className="bg-secondary flex flex-row justify-center items-center rounded-b-lg w-full h-1/4 mt-5">
               <button 
                 type="submit"
                 className="border-2 rounded-xl px-3 my-5 bg-primary text-ternary"
+                onClick={handleSubmit}
               >
                 Submit
               </button> 
             </div>
-          </form>
         </div> 
       </div>
     </div>
