@@ -10,6 +10,7 @@ import TextModal from './components/TestModal';
 import Animate from 'animate.css-react'
 import 'animate.css/animate.css'
 import AnimatedBackground from './components/AnimatedBackground';
+import { CircularProgress } from '@mui/material'; // Add this import
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -23,6 +24,7 @@ function Home() {
   const [displayText, setDisplayText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coolAnimation, setCoolAnimation] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const navigate = useNavigate();
 
@@ -110,6 +112,7 @@ function Home() {
       setDisplayText('');
       setIsWaitingForResponse(false);
       setIsAnimating('animate__animated animate__rotateIn');
+      setIsProcessing(false); // Reset processing state
     } catch (err) {
       console.error("Error accessing camera or connecting to WebSocket:", err);
     }
@@ -208,6 +211,7 @@ function Home() {
         break;
       case 'Accepted':
         console.log('Accepted');
+        setIsProcessing(true); // Set processing to true when accepted
         {
           const nextResponse = await waitForResponse();
           await handleAnalysisResponse(nextResponse);
@@ -219,6 +223,7 @@ function Home() {
       case 'Responded':
         console.log('Responded');
         setIsCapturing(false);
+        setIsProcessing(false); // Reset processing state
         playAudio(payload.audio_b64);
         {
           const nextResponse = await waitForResponse();
@@ -301,11 +306,16 @@ function Home() {
         <button
           className={`w-[10em] h-[10em] flex flex-col p-7 rounded-xl ${isCapturing ? 'bg-quadary better' : 'bg-secondary box'}  animate__animated animate__zoomIn`}
           onClick={toggleCapture}
+          disabled={isProcessing} // Disable button when processing
         >
-          <div className={`flex justify-center flex-col items-center ${isAnimating}`}>
-            <img src={isCapturing ? off : on} alt="Toggle capture" />
-            <h1 class="text-base pt-1"> {isCapturing ? 'ON' : 'OFF' } </h1>
-          </div>
+          {isProcessing ? (
+            <CircularProgress size={60} color="inherit" />
+          ) : (
+            <div className={`flex justify-center flex-col items-center ${isAnimating}`}>
+              <img src={isCapturing ? off : on} alt="Toggle capture" />
+              <h1 class="text-base pt-1"> {isCapturing ? 'ON' : 'OFF' } </h1>
+            </div>
+          )}
         </button>
         
         <div className="">
