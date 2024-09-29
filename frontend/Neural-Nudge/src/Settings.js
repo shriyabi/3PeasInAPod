@@ -19,9 +19,7 @@ function Settings() {
         settings: {
           speed: 5,
           anger: 5,
-          curiosity: 5,
           positivity: 5,
-          surprise: 5,
           sadness: 5,
           aggressiveness: 5,
         }
@@ -64,9 +62,7 @@ function Settings() {
   const settingLabels = {
     speed: ['Slow', 'Fast'],
     anger: ['Calm', 'Angry'],
-    curiosity: ['Disinterested', 'Curious'],
     positivity: ['Negative', 'Positive'],
-    surprise: ['Predictable', 'Surprising'],
     sadness: ['Happy', 'Sad'],
     aggressiveness: ['Passive', 'Aggressive'],
   };
