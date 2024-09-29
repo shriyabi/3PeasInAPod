@@ -6,6 +6,9 @@ import App from './App.css';
 import settings from './application-settings.png';
 import on from './on-button.png';
 import off from './on-off.png';
+import Animate from 'animate.css-react'
+import 'animate.css/animate.css'
+import AnimatedBackground from './components/AnimatedBackground';
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -16,8 +19,7 @@ function Home() {
   const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
   const audioRef = useRef(new Audio());
   const [isAnimating, setIsAnimating] = useState('animate__animated animate__flipInY');
-  const [displayText, setDisplayText] = useState('');
-
+  const [coolAnimation, setCoolAnimation] = useState('');
 
   const navigate = useNavigate();
 
@@ -241,10 +243,10 @@ function Home() {
   const toggleCapture = () => {
     if (isCapturing) {
       stopCapture();
-      setButtonRotation(0);
     } else {
       startCapture();
     }
+
     const updatedUserData = {
       user: {
         id: userData.user.id,
@@ -261,6 +263,7 @@ function Home() {
         aggressiveness: 10
       }
     };
+    setCoolAnimation('animate__animated animate__zoomIn'); 
     setUserData(updatedUserData);
     localStorage.setItem('userData', JSON.stringify(updatedUserData));
   };
@@ -272,23 +275,46 @@ function Home() {
   };
 
   return (
-    <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
-      <div className="w-full h-[85vh] flex items-center justify-center flex-col">
-        <h2 class="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
+    <div className="w-screen h-screen bg-primary flex flex-col items-center justify-between relative">
+      <AnimatedBackground />
+      <div className="w-full h-[85vh] z-10 flex flex-col items-center justify-center relative">
+        <h2 className="pb-10 px-5 text-ternary text-center">
+          Press the button to communicate with Big Green Brother
+        </h2>
+  
         <button
-          className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing === "True" ? 'bg-secondary' : 'bg-secondary'}`}
+          className={`w-[10em] h-[10em] flex flex-col p-7 rounded-xl ${isCapturing ? 'bg-quadary' : 'bg-secondary'}  animate__animated animate__zoomIn`}
           onClick={toggleCapture}
         >
-          <div className={`flex justify-center items-center ${isAnimating}`}>
-            <img src={isCapturing ? off : on} />
+          <div className={`flex justify-center flex-col items-center ${isAnimating}`}>
+            <img src={isCapturing ? off : on} alt="capture status" />
+            <h1 class="text-base pt-1"> {isCapturing ? 'OFF' : 'ON' } </h1>
           </div>
         </button>
-        
+  
         <video ref={videoRef} style={{ display: 'none' }} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
+  
+      <div className="w-full h-[15vh] z-10 bg-quadary flex justify-center items-center">
+        <button
+          className="w-[3em] h-[3em] icons m-8 hover:text-secondary"
+          onClick={() => navigate('/dashboard')}
+        >
+          <img src={home} alt="Home" />
+          <h2 className="text-xs">Home</h2>
+        </button>
+  
+        <button
+          className="w-[3em] h-[3em] icons m-8"
+          onClick={() => navigate('/settings')}
+        >
+          <img src={settings} alt="Settings" />
+          <h2 className="text-xs">Settings</h2>
+        </button>
+      </div>
     </div>
-  );
+  );  
 }
 
 export default Home;

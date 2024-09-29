@@ -41,3 +41,8 @@
   filter: drop-shadow(5px 5px 5px #483838a4);
 }
 
+.input{
+  background-color: #483838; /* Change this to your desired color */
+}
+
+
