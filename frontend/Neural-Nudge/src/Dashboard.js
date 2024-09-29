@@ -11,6 +11,8 @@ function Home() {
   const canvasRef = useRef(null);
   const [socket, setSocket] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+  const audioRef = useRef(new Audio());
 
   useEffect(() => {
     // Load user data from localStorage on component mount
@@ -44,10 +46,10 @@ function Home() {
   useEffect(() => {
     let interval;
     if (isCapturing) {
-      interval = setInterval(captureAndConvert, 500);
+      interval = setInterval(captureAndConvert, 200);
     }
     return () => clearInterval(interval);
-  }, [isCapturing]);
+  }, [isCapturing && !isWaitingForResponse]);
 
   const startCapture = async () => {
     try {
@@ -58,17 +60,15 @@ function Home() {
       const ws = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
       ws.onopen = () => {
         console.log('WebSocket connected');
-        setSocket(ws);
 
         if (userData) {
           const payload = {
-            type: "register",
-            payload: {
               user: {
                 id: userData.user.id,
                 first_name: userData.user.first_name,
                 last_name: userData.user.last_name,
               },
+              settings: {
                 speed: userData.settings.speed,
                 anger: userData.settings.anger,
                 curiosity: userData.settings.curiosity,
@@ -76,16 +76,20 @@ function Home() {
                 surprise: userData.settings.surprise,
                 sadness: userData.settings.sadness,
                 aggressiveness: userData.settings.aggressiveness,
-            }
+              }
           };
-          console.log(payload);
-          ws.send(JSON.stringify(payload));
+          const request = {
+            type: "register",
+            payload: payload
+          }
+          ws.send(JSON.stringify(request));
         }
       };
       ws.onerror = (error) => {
         console.error('WebSocket error:', error);
       };
 
+      setSocket(ws);
       setIsCapturing(true);
     } catch (err) {
       console.error("Error accessing camera or connecting to WebSocket:", err);
@@ -107,25 +111,122 @@ function Home() {
     setSocket(null);
   };
 
-  const captureAndConvert = () => {
+  const captureAndConvert = async () => {
+    if (!socket || isWaitingForResponse) return;
+    setIsWaitingForResponse(true);
+
     const video = videoRef.current;
     const canvas = canvasRef.current;
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
-    const base64Image = canvas.toDataURL('image/jpeg');
+    const base64Image = canvas.toDataURL('image/jpeg').split(',')[1];
 
-    // Send event with JSON payload
     if (socket && socket.readyState === WebSocket.OPEN) {
+      
       const payload = {
-        type: 'image',
-        data: base64Image,
-        timestamp: new Date().toISOString()
+        image_b64: base64Image,
+        timestamp: new Date().toISOString(),
+        location: 'Unknown'
       };
-      socket.send(JSON.stringify(payload));
+      const request = {
+        type: 'analysis',
+        payload: payload
+      };
+      socket.send(JSON.stringify(request));
+
+      try {
+        const response = await waitForResponse();
+        await handleAnalysisResponse(response);
+      } catch (error) {
+        console.error('Error handling response:', error);
+      } finally {
+        setIsWaitingForResponse(false);
+      }
     } else {
       console.error('WebSocket is not connected');
+      setIsWaitingForResponse(false);
+      setSocket(null);
     }
+  };
+
+  const waitForResponse = () => {
+    return new Promise((resolve, reject) => {
+      socket.onmessage = (event) => {
+        try {
+          const response = JSON.parse(event.data);
+          resolve(response);
+        } catch (error) {
+          reject(error);
+        }
+      };
+    });
+  };
+
+  const handleAnalysisResponse = async (response) => {
+    if (response.type !== 'analysis') {
+      return;
+    }
+    const payload = response.payload;
+    if (!payload.success) {
+      console.log("Something really fucked up happened");
+      console.log(response);
+      throw new Error("Something really fucked up happened");
+    }
+    switch (payload.status) {
+      case 'Received':
+        console.log('Received');
+        {
+          const nextResponse = await waitForResponse();
+          await handleAnalysisResponse(nextResponse);
+        }
+        break;
+      case 'Rejected':
+        console.log('Rejected');
+        break;
+      case 'Accepted':
+        console.log('Accepted');
+        {
+          const nextResponse = await waitForResponse();
+          await handleAnalysisResponse(nextResponse);
+        }
+        break;
+      case 'No_Response':
+        console.log('No_Response');
+        break;
+      case 'Responded':
+        console.log('Responded');
+        playAudio(payload.audio_b64);
+        {
+          const nextResponse = await waitForResponse();
+          await handleAnalysisResponse(nextResponse);
+        }
+        break;
+      case 'Groq_Response':
+        console.log('Groq_Response');
+        console.log(payload);
+        break;
+      default:
+        console.log('Unknown response status:', payload.status);
+        break;
+    }
+  };
+
+  const playAudio = (base64Audio) => {
+    const audioBlob = base64ToBlob(base64Audio, 'audio/mp3');
+    const audioUrl = URL.createObjectURL(audioBlob);
+    audioRef.current.src = audioUrl;
+    audioRef.current.play();
+  };
+
+  const base64ToBlob = (base64, mimeType) => {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
   };
 
   const toggleCapture = () => {
