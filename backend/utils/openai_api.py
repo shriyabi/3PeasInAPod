@@ -109,6 +109,8 @@ Surprise: {surprise}
 Sadness: {sadness}
 Aggressiveness: {aggressiveness}
 
+The users name is {first_name} {last_name}
+
 """
 
 
@@ -123,6 +125,8 @@ async def openai_infer(
     sadness: int = 2,
     aggressiveness: int = 2,
     max_tokens: int = 300,
+    first_name: str = "John",
+    last_name: str = "Doe",
 ):
 
     response = client.chat.completions.create(
@@ -131,7 +135,7 @@ async def openai_infer(
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": USER_PROMPT.format(speed=speed, anger=anger, curiosity=curiosity, positivity=positivity, surprise=surprise, sadness=sadness, aggressiveness=aggressiveness)},
+                    {"type": "text", "text": USER_PROMPT.format(speed=speed, anger=anger, curiosity=curiosity, positivity=positivity, surprise=surprise, sadness=sadness, aggressiveness=aggressiveness, first_name=first_name, last_name=last_name)},
                     {
                         "type": "image_url",
                         "image_url": {
