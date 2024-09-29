@@ -23,8 +23,6 @@ function Home() {
   const [displayText, setDisplayText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [coolAnimation, setCoolAnimation] = useState('');
-  const [displayText, setDisplayText] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
