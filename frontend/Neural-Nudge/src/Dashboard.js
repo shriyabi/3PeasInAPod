@@ -6,6 +6,8 @@ import App from './App.css';
 import settings from './application-settings.png';
 import on from './on-button.png';
 import off from './on-off.png';
+import Animate from 'animate.css-react'
+import 'animate.css/animate.css'
 
 function Home() {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -272,10 +274,10 @@ function Home() {
 
   return (
     <div className="w-screen h-screen bg-primary flex items-center justify-center flex-col">
-      <div className="w-full h-[85vh] bg-ternary flex items-center justify-center flex-col">
+      <div className="w-full h-[85vh] bg-primary flex items-center justify-center flex-col">
         <h2 class="pb-10 px-5 text-ternary text-center"> Press the button to communicate with Big Green Brother </h2>
         <button
-          className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing === "True" ? 'bg-secondary' : 'bg-secondary'}`}
+          className={`w-[10em] h-[10em] p-5 rounded-xl ${isCapturing === "True" ? 'bg-secondary' : 'bg-secondary'} animate__animated animate__zoomIn`}
           onClick={toggleCapture}
         >
           <div className={`flex justify-center items-center ${isAnimating}`}>

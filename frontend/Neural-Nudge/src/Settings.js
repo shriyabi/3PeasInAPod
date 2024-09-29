@@ -60,6 +60,17 @@ function Settings() {
     navigate('/dashboard');
   };
 
+  // Label mapping for each setting with left and right extremes
+  const settingLabels = {
+    speed: ['Slow', 'Fast'],
+    anger: ['Calm', 'Angry'],
+    curiosity: ['Disinterested', 'Curious'],
+    positivity: ['Negative', 'Positive'],
+    surprise: ['Predictable', 'Surprising'],
+    sadness: ['Happy', 'Sad'],
+    aggressiveness: ['Passive', 'Aggressive'],
+  };
+
   if (!userData) return null;
 
   return (
@@ -68,36 +79,40 @@ function Settings() {
         <h2 className="text-quadary text-3xl text-center font-bold p-5">Settings</h2>
         <div className="w-[90vw] rounded-lg bg-ternary pt-3 h-4/5 flex flex-col items-center overflow-y-auto">
           <div className="w-full px-5 py-3">
-            <label className="text-primary text-sm pb-1"> Reset First Name</label>
+            <label className="text-primary text-bases pb-1"> Reset First Name</label>
             <input
               type="text"
               value={userData.user.first_name}
               placeholder="Enter New First Name"
               onChange={(e) => handleInputChange('first_name', e.target.value)}
-              className="w-full rounded-sm px-3 py-2 text-primary"
+              className="w-full border-2 text-base rounded-md px-3 py-2 text-primary"
             />
           </div>
           <div className="w-full px-5 py-3">
-            <label className="text-primary text-sm pb-1"> Reset Last Name</label>
+            <label className="text-primary text-base pb-1"> Reset Last Name</label>
             <input
               type="text"
               value={userData.user.last_name}
               placeholder="Enter New Last Name"
               onChange={(e) => handleInputChange('last_name', e.target.value)}
-              className="w-full rounded-sm px-3 py-2 text-primary"
+              className="w-full border-2 rounded-md px-3 py-2 text-primary"
             />
           </div>
           {Object.entries(userData.settings).map(([setting, value]) => (
             <div key={setting} className="w-full px-5 py-3">
               <label className="text-primary text-sm pb-1 capitalize">{setting}</label>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                value={value}
-                onChange={(e) => handleSliderChange(setting, e.target.value)}
-                className="w-full"
-              />
+              <div className="flex justify-between items-center">
+                <span className="text-primary text-xs">{settingLabels[setting][0]}</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="10"
+                  value={value}
+                  onChange={(e) => handleSliderChange(setting, e.target.value)}
+                  className="w-full mx-3"
+                />
+                <span className="text-primary text-xs">{settingLabels[setting][1]}</span>
+              </div>
               <div className="flex justify-between text-primary text-xs">
                 <span>0</span>
                 <span>{value}</span>

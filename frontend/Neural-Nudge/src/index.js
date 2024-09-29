@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router basename="/sign-in">
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard"/>}/>
+      <Route path="/" element={<App/>} />
       <Route path="/dashboard" element={<Home />} />
       <Route path="/settings" element={<Settings />} />
     </Routes>
