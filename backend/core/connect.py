@@ -4,7 +4,7 @@ from fastapi import WebSocket
 from .types import User, Settings, Message, RegisterPayload, SettingsPayload, AnalysisPayload, RegisterResponse, SettingsResponse, AnalysisResponse
 
 from utils.roboflow_api import roboflow_infer
-from utils.openai_api import openai_infer
+from utils.openai_api import get_image_summary
 from utils.groq_api import get_groq_summary
 from utils.cartesia_api import cartesia_request
 
@@ -125,7 +125,7 @@ class Connection:
             await self.websocket.send_json(response)
             return
         
-        openai_result = await openai_infer(payload["image_b64"])
+        openai_result = await get_image_summary(payload["image_b64"])
 
         if openai_result["action"] == "None":
             response["payload"]["status"] = "No_Response"
