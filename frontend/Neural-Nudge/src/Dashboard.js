@@ -234,6 +234,7 @@ function Home() {
         console.log('Groq_Response');
         console.log(payload);
         setDisplayText(payload.groq_summary);
+        setIsModalOpen(true);  // Open the modal immediately when we get the Groq response
         stopCapture();
         break;
       default:
