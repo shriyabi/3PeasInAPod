@@ -123,5 +123,8 @@ async def get_groq_summary(openai_result: dict, roboflow_result: dict):
         ],
         model="llama3-8b-8192",
     )
-    print(chat_completion.choices[0].message.content)
-    return chat_completion.choices[0].message.content
+    content = chat_completion.choices[0].message.content
+    # Remove any text up to the first '<'
+    cleaned_content = content[content.find('<'):]
+    print(cleaned_content)
+    return cleaned_content
