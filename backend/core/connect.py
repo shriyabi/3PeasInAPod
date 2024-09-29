@@ -125,7 +125,7 @@ class Connection:
         await self.websocket.send_json(response)
 
         roboflow_result = await roboflow_infer(payload["image_b64"])
-        if not any(pred["confidence"] > 0 for pred in roboflow_result["predictions"]):
+        if not any(pred["confidence"] > 0.1 for pred in roboflow_result["predictions"]):
             logging.info("No object detected.")
             response["payload"]["status"] = "Rejected"
             set_current_img(base64.b64decode((payload["image_b64"])))
